@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TPO</string>
+    <string name="create_una"><u>Create una</u></string>
+    <string name="inicia_sesion"><u>Inicia sesion</u></string>
 </resources>

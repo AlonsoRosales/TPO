@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/red"
+    android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".RegistroActivity">
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="25dp"
+            android:background="@color/red"
+            android:src="@drawable/ic_back_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.045"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RelativeLayout
+            android:layout_width="352dp"
+            android:layout_height="616dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/round_form_login"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:gravity="center_horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageButton">
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:text="REGISTRO"
+                android:textColor="@color/rodLOGIN"
+                android:textSize="40sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"></TextView>
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView8"
+                android:layout_alignStart="@+id/textView8"
+                android:layout_alignEnd="@+id/textView8"
+                android:layout_marginStart="-80dp"
+                android:layout_marginTop="36dp"
+                android:layout_marginEnd="166dp"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:text="Correo"
+                android:textColor="@color/red"
+                android:textSize="19sp"
+                android:textStyle="bold"></TextView>
+
+            <EditText
+                android:id="@+id/textView10"
+                android:layout_width="321dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView8"
+                android:layout_alignStart="@+id/textView8"
+                android:layout_alignEnd="@+id/textView8"
+                android:layout_marginStart="-60dp"
+                android:layout_marginTop="45dp"
+                android:layout_marginEnd="-50dp"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView8"
+                android:layout_alignStart="@+id/textView8"
+                android:layout_alignEnd="@+id/textView8"
+                android:layout_marginStart="-100dp"
+                android:layout_marginTop="120dp"
+                android:layout_marginEnd="100dp"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:text="Contraseña"
+                android:textColor="@color/red"
+                android:textSize="19sp"
+                android:textStyle="bold"></TextView>
+
+            <EditText
+                android:id="@+id/textView12"
+                android:layout_width="321dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView8"
+                android:layout_alignStart="@+id/textView8"
+                android:layout_alignEnd="@+id/textView8"
+                android:layout_marginStart="-60dp"
+                android:layout_marginTop="128dp"
+                android:layout_marginEnd="-50dp"
+                android:inputType="textPassword"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="223dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView8"
+                android:layout_alignStart="@+id/textView8"
+                android:layout_alignEnd="@+id/textView8"
+                android:layout_marginStart="-100dp"
+                android:layout_marginTop="200dp"
+                android:layout_marginEnd="17dp"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:text="Confirmar contraseña"
+                android:textColor="@color/red"
+                android:textSize="19sp"
+                android:textStyle="bold"></TextView>
+
+            <EditText
+                android:id="@+id/textView14"
+                android:layout_width="321dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView8"
+                android:layout_alignStart="@+id/textView8"
+                android:layout_alignEnd="@+id/textView8"
+                android:layout_marginStart="-60dp"
+                android:layout_marginTop="210dp"
+                android:layout_marginEnd="-50dp"
+                android:inputType="textPassword"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="109dp"
+                android:layout_height="55dp"
+                android:layout_below="@+id/textView14"
+                android:layout_alignStart="@+id/textView8"
+                android:layout_alignEnd="@+id/textView8"
+                android:layout_marginStart="-1dp"
+                app:cornerRadius="20dp"
+                android:backgroundTint="@color/red"
+                android:layout_marginTop="52dp"
+                android:layout_marginEnd="-1dp"
+                android:text="Crear cuenta" />
+
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="174dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView8"
+                android:layout_alignStart="@+id/textView8"
+                android:layout_alignEnd="@+id/textView8"
+                android:layout_marginStart="-5dp"
+                android:layout_marginTop="375dp"
+                android:layout_marginEnd="71dp"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:text="Ya tienes una cuenta?"
+                android:textColor="@color/red"
+                android:textSize="12sp"
+                android:textStyle="bold"></TextView>
+
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView8"
+                android:layout_alignStart="@+id/textView8"
+                android:layout_alignEnd="@+id/textView8"
+                android:layout_marginStart="82dp"
+                android:layout_marginTop="375dp"
+                android:layout_marginEnd="-47dp"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:text="@string/inicia_sesion"
+                android:textColor="@color/red"
+                android:textSize="12sp"
+                android:textStyle="bold"></TextView>
+
+        </RelativeLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
