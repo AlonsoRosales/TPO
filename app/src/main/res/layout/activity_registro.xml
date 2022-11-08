@@ -66,7 +66,7 @@
                 android:textStyle="bold"></TextView>
 
             <EditText
-                android:id="@+id/textView10"
+                android:id="@+id/correoRegistro"
                 android:layout_width="321dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textView8"
@@ -99,7 +99,7 @@
                 android:textStyle="bold"></TextView>
 
             <EditText
-                android:id="@+id/textView12"
+                android:id="@+id/contraRegistro"
                 android:layout_width="321dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textView8"
@@ -133,7 +133,7 @@
                 android:textStyle="bold"></TextView>
 
             <EditText
-                android:id="@+id/textView14"
+                android:id="@+id/recontraRegistro"
                 android:layout_width="321dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textView8"
@@ -151,18 +151,18 @@
 
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/botonRegistro"
                 android:layout_width="109dp"
                 android:layout_height="55dp"
-                android:layout_below="@+id/textView14"
+                android:layout_below="@+id/recontraRegistro"
                 android:layout_alignStart="@+id/textView8"
                 android:layout_alignEnd="@+id/textView8"
                 android:layout_marginStart="-1dp"
-                app:cornerRadius="20dp"
-                android:backgroundTint="@color/red"
                 android:layout_marginTop="52dp"
                 android:layout_marginEnd="-1dp"
-                android:text="Crear cuenta" />
+                android:backgroundTint="@color/red"
+                android:text="Crear cuenta"
+                app:cornerRadius="20dp" />
 
             <TextView
                 android:id="@+id/textView15"

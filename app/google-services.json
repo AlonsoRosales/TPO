@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "375043405574",
+    "firebase_url": "https://tpoapp-68b50-default-rtdb.firebaseio.com",
+    "project_id": "tpoapp-68b50",
+    "storage_bucket": "tpoapp-68b50.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:375043405574:android:173230ca3d54cf08921087",
+        "android_client_info": {
+          "package_name": "com.example.tpo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "375043405574-hu7383lvvvdbvpdpuhs27tr9n3e408vr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tpo",
+            "certificate_hash": "2ddbb271af0cad3aa2e879f0e6e1abc50166b6ce"
+          }
+        },
+        {
+          "client_id": "375043405574-tta5hq7eerjc3k4t1bt7g5l36ampoa9m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdtVIssceSQTy1RWpTDYCma-b3vgN61M8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "375043405574-tta5hq7eerjc3k4t1bt7g5l36ampoa9m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
