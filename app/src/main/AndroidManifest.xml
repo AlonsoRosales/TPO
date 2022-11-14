@@ -22,8 +22,12 @@
         android:theme="@style/Theme.TPO"
         tools:targetApi="31">
         <activity
-            android:name=".InicioEmpresarioActivity"
+            android:name=".AgregarComidaEmpresarioActivity"
             android:exported="false" />
+        <activity
+            android:name=".InicioEmpresarioActivity"
+            android:exported="false"
+            android:theme="@style/Theme.TPO.InicioEmpresario" />
         <activity
             android:name=".InicioTrafiActivity"
             android:exported="false" />

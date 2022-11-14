@@ -3,7 +3,8 @@ package com.example.tpo;
 public class Usuario {
     private String contrasena;
     private String correo;
-    private String rol; //Acepta Long no String
+    private String rol;
+    private String tienda;
 
     public Usuario() {
     }
@@ -12,6 +13,21 @@ public class Usuario {
         this.correo = correo;
         this.contrasena = contrasena;
         this.rol = rol;
+    }
+
+    public Usuario(String contrasena, String correo, String rol, String tienda) {
+        this.contrasena = contrasena;
+        this.correo = correo;
+        this.rol = rol;
+        this.tienda = tienda;
+    }
+
+    public String getTienda() {
+        return tienda;
+    }
+
+    public void setTienda(String tienda) {
+        this.tienda = tienda;
     }
 
     public String getRol() {

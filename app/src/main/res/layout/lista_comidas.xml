@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardview"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:animateLayoutChanges="true"
+    android:background="#9CABC2"
+    app:cardCornerRadius="25dp"
+    app:cardElevation="4dp"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/iconImageViewComida"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:background="@drawable/round_image_comida"
+                android:scaleType="centerCrop" />
+
+            <RelativeLayout
+                android:layout_width="265dp"
+                android:layout_height="100dp"
+                android:layout_alignTop="@+id/iconImageViewComida"
+                android:layout_alignBottom="@+id/iconImageViewComida"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/iconImageViewComida">
+
+
+                <TextView
+                    android:id="@+id/nombreComida"
+                    android:layout_width="230dp"
+                    android:layout_height="42dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="Chifa(Tipakay + Wantan)Hao Chi"
+                    android:textColor="@color/titulo_comida"
+                    android:textSize="18sp" />
+
+                <LinearLayout
+                    android:id="@+id/linerLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginTop="47dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/titulostock"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Stock:"
+                        android:textColor="@color/gray"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/precioComida"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="S/10.00"
+                        android:textColor="@color/red"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linerLayout2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="47dp"
+                    android:layout_toEndOf="@+id/linerLayout"
+                    android:layout_toRightOf="@+id/linerLayout"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/stockComida"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="40"
+                        android:textColor="@color/gray"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

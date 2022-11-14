@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,14 +138,25 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
 
         /*
+        Falta setearles la tienda
         //Creo al trafi1
-        firebaseAuth.createUserWithEmailAndPassword("trafi1@tpo.oficial.com","123456");
-        databaseReference.child("usuarios").push().setValue(new Usuario("trafi1@tpo.oficial.com",sha256("123456"),2));
+        firebaseAuth.createUserWithEmailAndPassword("trafi1@tpo.oficial.com","123456").addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                String uid = firebaseAuth.getUid();
+                databaseReference.child("usuarios").child(uid).setValue(new Usuario("trafi1@tpo.oficial.com",sha256("123456"),"2"));
+            }
+        });
+
 
         //Creo al empresario1
-        firebaseAuth.createUserWithEmailAndPassword("empresario1@tpo.oficial.com","123456");
-        databaseReference.child("usuarios").push().setValue(new Usuario("empresario1@tpo.oficial.com",sha256("123456"),3));
-        */
+        firebaseAuth.createUserWithEmailAndPassword("empresario1@tpo.oficial.com","123456").addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                String uid1 = firebaseAuth.getUid();
+                databaseReference.child("usuarios").child(uid1).setValue(new Usuario("empresario1@tpo.oficial.com",sha256("123456"),"3"));
+            }
+        });*/
 
        /*FirebaseUser user = firebaseAuth.getCurrentUser();
         if(user != null){
@@ -156,4 +166,22 @@ public class MainActivity extends AppCompatActivity {
         }*/
     }
 
+    public String sha256(String base) {
+        try{
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(base.getBytes("UTF-8"));
+            StringBuffer hexString = new StringBuffer();
+
+            for (int i = 0; i < hash.length; i++) {
+                String hex = Integer.toHexString(0xff & hash[i]);
+                if(hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+
+            return hexString.toString();
+        } catch(Exception ex){
+
+            return base;
+        }
+    }
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/agregar_empresario"
+        android:icon="@drawable/ic_plus"
+        app:showAsAction="always"
+        android:title="Agregar">
+    </item>
+
+    <item
+        android:id="@+id/three_dots_empresario"
+        android:icon="@drawable/ic_three_dots"
+        app:showAsAction="always"
+        android:title="Más">
+
+        <menu>
+            <item
+                android:id="@+id/cerrarSesion_empresario"
+                android:icon="@drawable/ic_back_button_login"
+                android:title="Cerrar Sesión"/>
+        </menu>
+
+    </item>
+
+
+</menu>
