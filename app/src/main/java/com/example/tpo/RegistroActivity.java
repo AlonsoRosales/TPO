@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -27,7 +28,7 @@ public class RegistroActivity extends AppCompatActivity {
     String confirmarContrasena;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference = firebaseDatabase.getReference();
-
+    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
 
     @Override
@@ -94,13 +95,15 @@ public class RegistroActivity extends AppCompatActivity {
 
 
                     if(guardar){
-                        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
                         firebaseAuth.createUserWithEmailAndPassword(correo,contrasena).addOnCompleteListener(RegistroActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(task.isSuccessful()){
+
+                                    String uid = firebaseAuth.getUid();
                                     Toast.makeText(RegistroActivity.this,"Cuenta creada exitosamente!",Toast.LENGTH_SHORT).show();
-                                    databaseReference.child("usuarios").push().setValue(new Usuario(correo,sha256(contrasena),"1"));
+
+                                    databaseReference.child("usuarios").child(uid).setValue(new Usuario(correo,sha256(contrasena),"1"));
 
                                 }else{
                                     Toast.makeText(RegistroActivity.this,"Correo o contraseña incorrectas!",Toast.LENGTH_SHORT).show();

@@ -69,36 +69,30 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(task.isSuccessful()){
-                                    databaseReference.child("usuarios").addListenerForSingleValueEvent(new ValueEventListener() {
+
+                                    String uid = firebaseAuth.getCurrentUser().getUid();
+
+                                    databaseReference.child("usuarios/"+uid).addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                            for(DataSnapshot children : snapshot.getChildren()){
-                                                String correoDB = children.child("correo").getValue(String.class);
-                                                if(correoDB.equals(correo)){
-                                                    Long rolDB = children.child("rol").getValue(Long.class);
+                                            Usuario user = snapshot.getValue(Usuario.class);
+                                            String rolDB = user.getRol();
+                                            if(rolDB.equals("1")){
+                                                Intent i = new Intent(MainActivity.this,InicioUsuarioActivity.class);
+                                                startActivity(i);
+                                                Toast.makeText(MainActivity.this,"Eres Cliente!",Toast.LENGTH_SHORT).show();
+                                            }
 
-                                                    if(rolDB == 1){
-                                                        Intent i = new Intent(MainActivity.this,InicioUsuarioActivity.class);
-                                                        startActivity(i);
-                                                        Toast.makeText(MainActivity.this,"Eres Cliente!",Toast.LENGTH_SHORT).show();
-                                                        break;
-                                                    }
+                                            if(rolDB.equals("2")){
+                                                Intent i = new Intent(MainActivity.this,InicioTrafiActivity.class);
+                                                startActivity(i);
+                                                Toast.makeText(MainActivity.this,"Eres Trafi!",Toast.LENGTH_SHORT).show();
+                                            }
 
-                                                    if(rolDB == 2){
-                                                        Intent i = new Intent(MainActivity.this,InicioTrafiActivity.class);
-                                                        startActivity(i);
-                                                        Toast.makeText(MainActivity.this,"Eres Trafi!",Toast.LENGTH_SHORT).show();
-                                                        break;
-                                                    }
-
-                                                    if(rolDB == 3){
-                                                        Intent i = new Intent(MainActivity.this,InicioEmpresarioActivity.class);
-                                                        startActivity(i);
-                                                        Toast.makeText(MainActivity.this,"Eres Empresario!",Toast.LENGTH_SHORT).show();
-                                                        break;
-                                                    }
-
-                                                }
+                                            if(rolDB.equals("3")){
+                                                Intent i = new Intent(MainActivity.this,InicioEmpresarioActivity.class);
+                                                startActivity(i);
+                                                Toast.makeText(MainActivity.this,"Eres Empresario!",Toast.LENGTH_SHORT).show();
                                             }
 
                                         }
@@ -154,12 +148,12 @@ public class MainActivity extends AppCompatActivity {
         databaseReference.child("usuarios").push().setValue(new Usuario("empresario1@tpo.oficial.com",sha256("123456"),3));
         */
 
-        FirebaseUser user = firebaseAuth.getCurrentUser();
+       /*FirebaseUser user = firebaseAuth.getCurrentUser();
         if(user != null){
             Intent i = new Intent(MainActivity.this,InicioUsuarioActivity.class);
             finish();
             startActivity(i);
-        }
+        }*/
     }
 
 }
