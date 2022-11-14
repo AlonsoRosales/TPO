@@ -3,6 +3,7 @@ package com.example.tpo;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,13 +15,18 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.security.MessageDigest;
 
 
 public class RegistroActivity extends AppCompatActivity {
     String correo;
     String contrasena;
     String confirmarContrasena;
-
+    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    DatabaseReference databaseReference = firebaseDatabase.getReference();
 
 
 
@@ -52,11 +58,11 @@ public class RegistroActivity extends AppCompatActivity {
                                 guardar = false;
                             }
 
-                            if (!partesCorreo[1].equals("pucp.edu.pe")) {
+                            if (!partesCorreo[1].equals("pucp.edu.pe") && !partesCorreo[1].equals("tpo.oficial.com")) {
                                 correo = correoHelper;
 
                             } else {
-                                correoText.setError("No se permite correos PUCP");
+                                correoText.setError("No se permite ese tipo de correos");
                                 guardar = false;
                             }
 
@@ -94,8 +100,10 @@ public class RegistroActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(task.isSuccessful()){
                                     Toast.makeText(RegistroActivity.this,"Cuenta creada exitosamente!",Toast.LENGTH_SHORT).show();
+                                    databaseReference.child("usuarios").push().setValue(new Usuario(correo,sha256(contrasena),"1"));
+
                                 }else{
-                                    Toast.makeText(RegistroActivity.this,"Contraseñas incorrectas!",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RegistroActivity.this,"Correo o contraseña incorrectas!",Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -114,6 +122,36 @@ public class RegistroActivity extends AppCompatActivity {
             }
         });
 
-
     }
+
+    public String sha256(String base) {
+        try{
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(base.getBytes("UTF-8"));
+            StringBuffer hexString = new StringBuffer();
+
+            for (int i = 0; i < hash.length; i++) {
+                String hex = Integer.toHexString(0xff & hash[i]);
+                if(hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+
+            return hexString.toString();
+        } catch(Exception ex){
+
+            return base;
+        }
+    }
+
+    public void textoTengoCuentaRetroceder(View view){
+        Intent i = new Intent(this,MainActivity.class);
+        startActivity(i);
+    }
+
+
+    public void botonRetrocederRegistro(View view){
+        Intent i = new Intent(this,MainActivity.class);
+        startActivity(i);
+    }
+
 }

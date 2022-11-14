@@ -16,6 +16,7 @@
             android:layout_height="50dp"
             android:layout_marginTop="25dp"
             android:background="@color/red"
+            android:onClick="botonRetrocederRegistro"
             android:src="@drawable/ic_back_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.045"
@@ -183,7 +184,7 @@
 
             <TextView
                 android:id="@+id/textView16"
-                android:layout_width="70dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textView8"
                 android:layout_alignStart="@+id/textView8"
@@ -193,6 +194,7 @@
                 android:layout_marginEnd="-47dp"
                 android:fontFamily="sans-serif"
                 android:gravity="center"
+                android:onClick="textoTengoCuentaRetroceder"
                 android:text="@string/inicia_sesion"
                 android:textColor="@color/red"
                 android:textSize="12sp"
