@@ -3,9 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Alonso/AndroidStudioProjects/TPO/app/src/main/res/drawable/ic_back_button.xml" value="0.246" />
+        <entry key="..\:/Users/Alonso/AndroidStudioProjects/TPO/app/src/main/res/drawable/ic_back_button_login.xml" value="0.246" />
+        <entry key="..\:/Users/Alonso/AndroidStudioProjects/TPO/app/src/main/res/drawable/ic_camara.xml" value="0.251" />
+        <entry key="..\:/Users/Alonso/AndroidStudioProjects/TPO/app/src/main/res/drawable/ic_plus.xml" value="0.246" />
         <entry key="..\:/Users/Alonso/AndroidStudioProjects/TPO/app/src/main/res/drawable/ic_three_dots.xml" value="0.246" />
         <entry key="..\:/Users/Alonso/AndroidStudioProjects/TPO/app/src/main/res/drawable/round_form_login.xml" value="0.327" />
         <entry key="..\:/Users/Alonso/AndroidStudioProjects/TPO/app/src/main/res/drawable/round_image_comida.xml" value="0.246" />
+        <entry key="..\:/Users/Alonso/AndroidStudioProjects/TPO/app/src/main/res/drawable/round_inputs.xml" value="0.246" />
         <entry key="..\:/Users/Alonso/AndroidStudioProjects/TPO/app/src/main/res/layout/activity_agregar_comida_empresario.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Alonso/AndroidStudioProjects/TPO/app/src/main/res/layout/activity_inicio_empresario.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Alonso/AndroidStudioProjects/TPO/app/src/main/res/layout/activity_inicio_trafi.xml" value="0.36666666666666664" />
@@ -13,6 +18,7 @@
         <entry key="..\:/Users/Alonso/AndroidStudioProjects/TPO/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/Alonso/AndroidStudioProjects/TPO/app/src/main/res/layout/activity_registro.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Alonso/AndroidStudioProjects/TPO/app/src/main/res/layout/lista_comidas.xml" value="0.365625" />
+        <entry key="..\:/Users/Alonso/AndroidStudioProjects/TPO/app/src/main/res/layout/personalize_appbar_empresario.xml" value="0.365625" />
         <entry key="..\:/Users/Alonso/AndroidStudioProjects/TPO/app/src/main/res/menu/menu_cerrar_sesion.xml" value="0.365625" />
         <entry key="..\:/Users/Alonso/AndroidStudioProjects/TPO/app/src/main/res/menu/menu_empresario.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Alonso/AndroidStudioProjects/TPO/app/src/main/res/xml/ghj.xml" value="0.19814814814814816" />
