@@ -2,17 +2,22 @@ package com.example.tpo;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,6 +31,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AgregarComidaEmpresarioActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -37,31 +43,44 @@ public class AgregarComidaEmpresarioActivity extends AppCompatActivity {
     int stock;
     String precio;
     String descripcion;
-    TextView stockTxt = findViewById(R.id.stock);
+    EditText stockTxt;
     String uidEmpresario;
-    TextView avisoTxt = findViewById(R.id.avisoText);
+    TextView avisoTxt;
     private int PICK_IMAGE = 1;
     private int upload_count;
     ArrayList<Uri> ImageList = new ArrayList<>();
     private Uri ImageUri;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_comida_empresario);
 
+        avisoTxt = findViewById(R.id.avisoText);
+
+        stockTxt = findViewById(R.id.stock);
         stock = Integer.parseInt(stockTxt.getText().toString());
 
         ImageButton botonAgregarImagenes = findViewById(R.id.variasImagenes);
 
+        //App Bar
+        ImageButton imageButton = findViewById(R.id.botonatrasagregar);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(AgregarComidaEmpresarioActivity.this,InicioEmpresarioActivity.class);
+                startActivity(i);
+            }
+        });
 
         ImageButton botonDisminuir = findViewById(R.id.disminuirStock);
         botonDisminuir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                stockTxt = findViewById(R.id.stock);
+                stock = Integer.parseInt(stockTxt.getText().toString());
                 stock = stock - 1;
-                stockTxt.setText(stock);
+                stockTxt.setText(String.valueOf(stock));
 
             }
         });
@@ -70,12 +89,14 @@ public class AgregarComidaEmpresarioActivity extends AppCompatActivity {
         botonAumentar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                stockTxt = findViewById(R.id.stock);
+                stock = Integer.parseInt(stockTxt.getText().toString());
                 stock = stock + 1;
-                stockTxt.setText(stock);
+                stockTxt.setText(String.valueOf(stock));
             }
         });
 
-        botonDisminuir.setOnClickListener(new View.OnClickListener() {
+        botonAgregarImagenes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -84,8 +105,6 @@ public class AgregarComidaEmpresarioActivity extends AppCompatActivity {
                 startActivityForResult(intent,PICK_IMAGE);
             }
         });
-
-
 
 
         Button botonAgregar = findViewById(R.id.botonAgregar);
@@ -131,8 +150,7 @@ public class AgregarComidaEmpresarioActivity extends AppCompatActivity {
 
 
                     if(guardar){
-
-                        Comida comida = new Comida(nombre,precio,descripcion,stock);
+                        Comida comida = new Comida(nombre,precio,descripcion,stock,null,"1",null);
                         uidEmpresario = firebaseAuth.getCurrentUser().getUid();
 
                         databaseReference.child("usuarios/"+uidEmpresario).child("tienda").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -142,7 +160,6 @@ public class AgregarComidaEmpresarioActivity extends AppCompatActivity {
                                 comida.setIdTienda(idTienda);
 
                                 databaseReference.child("comidas").push().setValue(comida);
-
                             }
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
@@ -150,43 +167,48 @@ public class AgregarComidaEmpresarioActivity extends AppCompatActivity {
                             }
                         });
 
+                        for(upload_count = 0;upload_count < ImageList.size(); upload_count++){
+                            Uri individualImage = ImageList.get(upload_count);
 
-                        databaseReference.child("comidas").orderByChild("nombre").equalTo(comida.getNombre()).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                String keyComida = String.valueOf(snapshot.getKey());
+                            StorageReference imageName = imageRef.child("Image"+individualImage.getLastPathSegment());
 
-                                for(upload_count = 0;upload_count < ImageList.size(); upload_count++){
-                                    Uri individualImage = ImageList.get(upload_count);
-                                    StorageReference imageName = imageRef.child("Image"+individualImage.getLastPathSegment());
+                            HashMap<String,String> valorcito = new HashMap<>();
 
-                                    imageRef.putFile(individualImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            imageName.putFile(individualImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    imageName.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                         @Override
-                                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                        public void onSuccess(Uri uri) {
+                                            String url = String.valueOf(uri);
+                                            valorcito.put("imagen",url);
 
-                                            imageName.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+
+                                            databaseReference.child("comidas").orderByChild("nombre").equalTo(String.valueOf(comida.getNombre())).addListenerForSingleValueEvent(new ValueEventListener() {
+                                                String keyComida;
                                                 @Override
-                                                public void onSuccess(Uri uri) {
-                                                    String url = String.valueOf(uri);
-                                                    databaseReference.child("comidas/"+keyComida).child("imagenes").push().setValue(url);
-
+                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                    for(DataSnapshot child : snapshot.getChildren()){
+                                                        keyComida = child.getKey();
+                                                        break;
+                                                    }
+                                                    System.out.println("LA LLAVE ES : "+keyComida);
+                                                    databaseReference.child("comidas").child(keyComida).child("imagenes").push().setValue(valorcito);
+                                                }
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError error) {
+                                                    //error message
                                                 }
                                             });
                                         }
                                     });
-
                                 }
+                            });
 
-                                Toast.makeText(AgregarComidaEmpresarioActivity.this,"Comida Agregada!",Toast.LENGTH_SHORT).show();
-
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                                //error message
-                            }
-                        });
-
+                        }
+                        Toast.makeText(AgregarComidaEmpresarioActivity.this,"Comida Agregada!",Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(AgregarComidaEmpresarioActivity.this,InicioEmpresarioActivity.class);
+                        startActivity(i);
 
                     }else{
                         Toast.makeText(AgregarComidaEmpresarioActivity.this,"Campo(s) incorrecto(s)!",Toast.LENGTH_SHORT).show();
@@ -235,6 +257,9 @@ public class AgregarComidaEmpresarioActivity extends AppCompatActivity {
         }
 
     }
+
+
+
 }
 
 
