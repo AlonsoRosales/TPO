@@ -1,8 +1,9 @@
 package com.example.tpo;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Comida {
+public class Comida implements Serializable {
     private String nombre;
     private String precio;
     private String descripcion;

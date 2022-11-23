@@ -1,6 +1,7 @@
 package com.example.tpo;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,6 +96,19 @@ public class ComidasAdapter extends RecyclerView.Adapter<ComidasAdapter.myViewHo
         }
 
         Glide.with(getContext()).load(ruta).into(imagen);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(getContext(),ActualizarComidaEmpresarioActivity.class);
+                intent.putExtra("comida",comidita);
+                getContext().startActivity(intent);
+
+            }
+        });
+
+
 
     }
 

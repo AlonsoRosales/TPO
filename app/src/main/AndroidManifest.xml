@@ -3,13 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.tpo">
 
-
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -23,9 +21,12 @@
         android:theme="@style/Theme.TPO"
         tools:targetApi="31">
         <activity
-            android:name=".AgregarComidaEmpresarioActivity"
-            android:theme="@style/Theme.TPO.AgregarComidaEmpresario"
+            android:name=".ActualizarComidaEmpresarioActivity"
             android:exported="false" />
+        <activity
+            android:name=".AgregarComidaEmpresarioActivity"
+            android:exported="false"
+            android:theme="@style/Theme.TPO.AgregarComidaEmpresario" />
         <activity
             android:name=".InicioEmpresarioActivity"
             android:exported="false"
