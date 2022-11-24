@@ -30,6 +30,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -169,8 +170,8 @@ public class AgregarComidaEmpresarioActivity extends AppCompatActivity {
 
                         for(upload_count = 0;upload_count < ImageList.size(); upload_count++){
                             Uri individualImage = ImageList.get(upload_count);
-
-                            StorageReference imageName = imageRef.child("Image"+individualImage.getLastPathSegment());
+                            String randomName = randomString();
+                            StorageReference imageName = imageRef.child(randomName+individualImage.getLastPathSegment());
 
                             HashMap<String,String> valorcito = new HashMap<>();
 
@@ -259,6 +260,16 @@ public class AgregarComidaEmpresarioActivity extends AppCompatActivity {
     }
 
 
+    public String randomString(){
+        int len = 5;
+        String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        SecureRandom rnd = new SecureRandom();
+
+        StringBuilder sb = new StringBuilder(len);
+        for(int i = 0; i < len; i++)
+            sb.append(AB.charAt(rnd.nextInt(AB.length())));
+        return sb.toString();
+    }
 
 }
 

@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class InicioEmpresarioActivity extends AppCompatActivity {
     /*FirebaseRecyclerOptions<Comida> options;
     RecyclerView recycleview;
     ComidasAdapter adapter;*/
-    private List<Comida> comidas = new ArrayList<Comida>();
+    private List<Comida> comidas;
     private Context mContext;
 
     public InicioEmpresarioActivity(Context mContext) {
@@ -51,11 +52,11 @@ public class InicioEmpresarioActivity extends AppCompatActivity {
         setContentView(R.layout.activity_inicio_empresario);
 
         String uidEmpresario = firebaseAuth.getCurrentUser().getUid();
-        databaseReference.child("usuarios/"+uidEmpresario).child("tienda").addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("usuarios/"+uidEmpresario).child("tienda").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String idTienda = snapshot.getValue(String.class);
-                databaseReference.child("tiendas").child(idTienda).addListenerForSingleValueEvent(new ValueEventListener() {
+                databaseReference.child("tiendas").child(idTienda).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         Tienda tienda = snapshot.getValue(Tienda.class);
@@ -65,16 +66,32 @@ public class InicioEmpresarioActivity extends AppCompatActivity {
                         databaseReference.child("comidas").orderByChild("estado").equalTo("1").addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                comidas = new ArrayList<Comida>();
                                 for(DataSnapshot children: snapshot.getChildren()){
                                     Comida comida1 = children.getValue(Comida.class);
-                                    comidas.add(comida1);
+                                    if(!comida1.getEstado().equals("0")){
+                                        comidas.add(comida1);
+                                    }
+
                                 }
-                                ComidasAdapter comidasAdapter = new ComidasAdapter();
-                                comidasAdapter.setListaComidas(comidas);
-                                comidasAdapter.setContext(InicioEmpresarioActivity.this);
-                                RecyclerView recyclerView = findViewById(R.id.recyclercomidas);
-                                recyclerView.setAdapter(comidasAdapter);
-                                recyclerView.setLayoutManager(new LinearLayoutManager(InicioEmpresarioActivity.this));
+
+                                if(comidas.size() != 0){
+                                    System.out.println("TAMAÑO:"+comidas.size());
+                                    System.out.println("ENTREEEEE");
+                                    ComidasAdapter comidasAdapter = new ComidasAdapter();
+                                    comidasAdapter.setListaComidas(comidas);
+                                    comidasAdapter.setContext(InicioEmpresarioActivity.this);
+                                    RecyclerView recyclerView = findViewById(R.id.recyclercomidas);
+                                    recyclerView.setAdapter(comidasAdapter);
+                                    recyclerView.setLayoutManager(new LinearLayoutManager(InicioEmpresarioActivity.this));
+                                }else{
+                                    ComidasAdapter comidasAdapter = new ComidasAdapter();
+                                    comidasAdapter.setListaComidas(comidas);
+                                    comidasAdapter.setContext(InicioEmpresarioActivity.this);
+                                    RecyclerView recyclerView = findViewById(R.id.recyclercomidas);
+                                    recyclerView.setAdapter(comidasAdapter);
+                                    recyclerView.setLayoutManager(new LinearLayoutManager(InicioEmpresarioActivity.this));
+                                }
 
                             }
                             @Override

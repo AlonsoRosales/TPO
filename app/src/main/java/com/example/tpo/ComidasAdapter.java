@@ -82,7 +82,7 @@ public class ComidasAdapter extends RecyclerView.Adapter<ComidasAdapter.myViewHo
         precio.setText(String.valueOf(comidita.getPrecio()));
 
         //Seteo de Imagen
-        Set<String> images = comidita.getImagenes().keySet();
+        /*Set<String> images = comidita.getImagenes().keySet();
         String[] img = images.toArray(new String[images.size()]);
 
 
@@ -95,7 +95,7 @@ public class ComidasAdapter extends RecyclerView.Adapter<ComidasAdapter.myViewHo
             ruta = ruta + url.charAt(j);
         }
 
-        Glide.with(getContext()).load(ruta).into(imagen);
+        Glide.with(getContext()).load(ruta).into(imagen);*/
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

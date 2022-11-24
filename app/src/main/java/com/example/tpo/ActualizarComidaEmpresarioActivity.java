@@ -26,6 +26,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -52,6 +53,9 @@ public class ActualizarComidaEmpresarioActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_actualizar_comida_empresario);
+
+        //Aviso cantidad de imagenes
+        avisoTxt = findViewById(R.id.avisoText2);
 
         //Recibo del intent la comida
         Intent intent = getIntent();
@@ -106,6 +110,16 @@ public class ActualizarComidaEmpresarioActivity extends AppCompatActivity {
         nombreTxt.setText(String.valueOf(comida.getNombre()));
         precioTxt.setText(String.valueOf(comida.getPrecio()));
         descripcionTxt.setText(String.valueOf(comida.getDescripcion()));
+
+        //Retrocerder
+        ImageButton imageButton = findViewById(R.id.botonatrasagregar);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(ActualizarComidaEmpresarioActivity.this,InicioEmpresarioActivity.class);
+                startActivity(i);
+            }
+        });
 
 
         Button botonAgregar = findViewById(R.id.botonAgregar2);
@@ -163,8 +177,9 @@ public class ActualizarComidaEmpresarioActivity extends AppCompatActivity {
 
                                 for(upload_count = 0;upload_count < ImageList.size(); upload_count++){
                                     Uri individualImage = ImageList.get(upload_count);
+                                    String randomName = randomString();
 
-                                    StorageReference imageName = imageRef.child("Image"+individualImage.getLastPathSegment());
+                                    StorageReference imageName = imageRef.child(randomName+individualImage.getLastPathSegment());
 
                                     HashMap<String,String> valorcito = new HashMap<>();
 
@@ -177,6 +192,7 @@ public class ActualizarComidaEmpresarioActivity extends AppCompatActivity {
                                                     String url = String.valueOf(uri);
                                                     valorcito.put("imagen",url);
 
+                                                    System.out.println(">>>URL : "+url);
                                                     databaseReference.child("comidas").child(keyComida).child("imagenes").push().setValue(valorcito);
                                                 }
                                             });
@@ -245,6 +261,18 @@ public class ActualizarComidaEmpresarioActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+
+    public String randomString(){
+        int len = 5;
+        String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        SecureRandom rnd = new SecureRandom();
+
+        StringBuilder sb = new StringBuilder(len);
+        for(int i = 0; i < len; i++)
+            sb.append(AB.charAt(rnd.nextInt(AB.length())));
+        return sb.toString();
     }
 
 }
