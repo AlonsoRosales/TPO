@@ -55,6 +55,7 @@ public class MessageFragmentPedirComidaUsuario extends DialogFragment {
     FirebaseAuth mAuth;
     TextView descripcionTXT;
     TextView stockTxt;
+    Double precioTotal;
     public MessageFragmentPedirComidaUsuario(String keyComida) {
         this.keyComida = keyComida;
     }
@@ -170,6 +171,7 @@ public class MessageFragmentPedirComidaUsuario extends DialogFragment {
                                 if(guardar){
 
                                     int stockRestante = comida.getStock() - stock;
+                                    precioTotal = Double.parseDouble(comida.getPrecio())*stock;
 
                                     if(stockRestante > 0){
                                         databaseReference.child("comidas/"+keyComida).child("stock").setValue(stockRestante);
@@ -203,9 +205,9 @@ public class MessageFragmentPedirComidaUsuario extends DialogFragment {
                                     uidUsuario = mAuth.getCurrentUser().getUid();
 
                                     SolicitudComida solicitudComida =
-                                            new SolicitudComida(uidUsuario,keyComida,idFoto,null,"En espera",descripcion,stock);
+                                            new SolicitudComida(uidUsuario,keyComida,idFoto,null,"En espera",descripcion,stock,precioTotal);
 
-                                    databaseReference.child("prestamos").push().setValue(solicitudComida);
+                                    databaseReference.child("pedidos").push().setValue(solicitudComida);
 
                                     AppCompatActivity activity = (AppCompatActivity) getContext();
                                     activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_user,new InicioFragmentUsuario()).commit();

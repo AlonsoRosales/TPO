@@ -8,8 +8,9 @@ public class SolicitudComida {
     private String estado;
     private String descripcion;
     private int cantidad;
+    private double precioTotal;
 
-    public SolicitudComida(String idUsuario, String idComida, String fotoUbicacion, String coordenadas, String estado, String descripcion, int cantidad) {
+    public SolicitudComida(String idUsuario, String idComida, String fotoUbicacion, String coordenadas, String estado, String descripcion, int cantidad,double precioTotal) {
         this.idUsuario = idUsuario;
         this.idComida = idComida;
         this.fotoUbicacion = fotoUbicacion;
@@ -17,6 +18,7 @@ public class SolicitudComida {
         this.estado = estado;
         this.descripcion = descripcion;
         this.cantidad = cantidad;
+        this.precioTotal = precioTotal;
     }
 
 
@@ -25,6 +27,14 @@ public class SolicitudComida {
 
     public String getIdUsuario() {
         return idUsuario;
+    }
+
+    public double getPrecioTotal() {
+        return precioTotal;
+    }
+
+    public void setPrecioTotal(double precioTotal) {
+        this.precioTotal = precioTotal;
     }
 
     public void setIdUsuario(String idUsuario) {

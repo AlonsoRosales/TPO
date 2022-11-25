@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@drawable/fondo_pantalla"
+    android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        tools:context=".FragmentDetallePedidoComidaUsuario">
+
+        <LinearLayout
+            android:id="@+id/linearLayout5"
+            android:layout_width="370dp"
+            android:layout_height="650dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:background="@drawable/fondo_detalle_comida"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <TextView
+                    android:id="@+id/nombrePedidoComidaDetalle"
+                    android:layout_width="210dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginEnd="105dp"
+                    android:text="Chifa(Tipakay + Wantan)Hao Chi"
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/estadoPedidoComidaDetalle"
+                    android:layout_width="102dp"
+                    android:layout_height="42dp"
+                    android:layout_marginStart="250dp"
+                    android:layout_marginTop="30dp"
+                    android:text="En espera"
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
+                <com.denzcoskun.imageslider.ImageSlider
+                    android:id="@+id/sliderPedidoComidaDetalle"
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
+                    android:layout_marginStart="220dp"
+                    android:layout_marginTop="70dp"
+                    android:background="@drawable/round_image_comida"
+                    app:iss_auto_cycle="true"
+                    app:iss_delay="0"
+                    app:iss_period="1000" />
+
+                <TextView
+                    android:id="@+id/precioTotalComidaDetalle"
+                    android:layout_width="102dp"
+                    android:layout_height="42dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="90dp"
+                    android:text="S/10.00"
+                    android:textColor="@color/red"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/cantidadPedidoComidaDetalleTitulo"
+                    android:layout_width="102dp"
+                    android:layout_height="42dp"
+                    android:layout_marginTop="140dp"
+                    android:layout_marginStart="20dp"
+                    android:textColor="@color/gray"
+                    android:text="Cantidad:"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/cantidadPedidoComidaDetalle"
+                    android:layout_width="102dp"
+                    android:layout_height="42dp"
+                    android:layout_marginStart="110dp"
+                    android:layout_marginTop="140dp"
+                    android:text="1"
+                    android:textColor="@color/gray"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tiendaPedidoComidaDetalleTitulo"
+                    android:layout_width="102dp"
+                    android:layout_height="42dp"
+                    android:layout_marginTop="190dp"
+                    android:layout_marginStart="20dp"
+                    android:textColor="@color/gray"
+                    android:text="Tienda:"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tiendaPedidoComidaDetalle"
+                    android:layout_width="102dp"
+                    android:layout_height="42dp"
+                    android:layout_marginStart="85dp"
+                    android:layout_marginTop="190dp"
+                    android:text="Tienda 1"
+                    android:textColor="@color/gray"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/descripcionPedidoComidaDetalleTitulo"
+                    android:layout_width="102dp"
+                    android:layout_height="42dp"
+                    android:layout_marginTop="240dp"
+                    android:layout_marginStart="20dp"
+                    android:textColor="@color/gray"
+                    android:text="Descripción:"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/descripcionPedidoComidaDetalle"
+                    android:layout_width="312dp"
+                    android:layout_height="72dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="265dp"
+                    android:text="Me encuentro en los pastos de Arqui.Traigo polera negra, jeans azules"
+                    android:textColor="@color/gray"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/ubicacionPedidoComidaDetalle"
+                    android:layout_width="102dp"
+                    android:layout_height="42dp"
+                    android:layout_marginTop="340dp"
+                    android:layout_marginStart="20dp"
+                    android:textColor="@color/gray"
+                    android:text="Ubicación:"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/imagenUbicacionPedidoDetalleUsuario"
+                    android:layout_width="300dp"
+                    android:layout_height="250dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="35dp"
+                    android:layout_marginTop="380dp"
+                    android:background="@drawable/round_image_comida"
+                    android:scaleType="centerCrop" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/separadordetallecomida2"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal"
+            android:background="@color/white"
+            android:gravity="center"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout5"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout5"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
+
+            <Button
+                android:id="@+id/botonCancelarPedidoDetalleUsuario"
+                android:layout_width="200dp"
+                android:layout_height="55dp"
+                android:textStyle="bold"
+                app:cornerRadius="15dp"
+                android:backgroundTint="@color/red"
+                android:text="Cancelar Pedido">
+
+            </Button>
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -21,13 +21,16 @@
         <entry key="..\:/Users/Alonso/AndroidStudioProjects/TPO/app/src/main/res/layout/activity_registro.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Alonso/AndroidStudioProjects/TPO/app/src/main/res/layout/elemento_comida.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Alonso/AndroidStudioProjects/TPO/app/src/main/res/layout/fragment_detalle_comida_usuario.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Alonso/AndroidStudioProjects/TPO/app/src/main/res/layout/fragment_detalle_pedido_comida_usuario.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Alonso/AndroidStudioProjects/TPO/app/src/main/res/layout/fragment_inicio_usuario.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Alonso/AndroidStudioProjects/TPO/app/src/main/res/layout/fragment_listado_usuario.xml" value="0.35260416666666666" />
         <entry key="..\:/Users/Alonso/AndroidStudioProjects/TPO/app/src/main/res/layout/fragment_message_pedir_comida_usuario.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Alonso/AndroidStudioProjects/TPO/app/src/main/res/layout/fragment_pedido_comidas_usuario.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Alonso/AndroidStudioProjects/TPO/app/src/main/res/layout/fragment_pedir_comida_usuario.xml" value="0.35260416666666666" />
         <entry key="..\:/Users/Alonso/AndroidStudioProjects/TPO/app/src/main/res/layout/fragment_solicitudes_usuario.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Alonso/AndroidStudioProjects/TPO/app/src/main/res/layout/lista_comidas.xml" value="0.365625" />
         <entry key="..\:/Users/Alonso/AndroidStudioProjects/TPO/app/src/main/res/layout/lista_comidas_usuario.xml" value="0.365625" />
+        <entry key="..\:/Users/Alonso/AndroidStudioProjects/TPO/app/src/main/res/layout/lista_pedidos.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Alonso/AndroidStudioProjects/TPO/app/src/main/res/layout/personalize_appbar_empresario.xml" value="0.365625" />
         <entry key="..\:/Users/Alonso/AndroidStudioProjects/TPO/app/src/main/res/menu/bottom_menu_usuario.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Alonso/AndroidStudioProjects/TPO/app/src/main/res/menu/menu_cerrar_sesion.xml" value="0.365625" />
