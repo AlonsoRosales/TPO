@@ -17,14 +17,14 @@
         android:orientation="vertical">
 
         <RelativeLayout
-            android:id="@+id/relativePedido"
+            android:id="@+id/relativePedidoTrafi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="10dp">
 
             <ImageView
-                android:id="@+id/imageComidita"
+                android:id="@+id/imageComiditaTrafi"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_alignParentStart="true"
@@ -37,15 +37,15 @@
             <RelativeLayout
                 android:layout_width="265dp"
                 android:layout_height="100dp"
-                android:layout_alignTop="@+id/imageComidita"
-                android:layout_alignBottom="@+id/imageComidita"
+                android:layout_alignTop="@+id/imageComiditaTrafi"
+                android:layout_alignBottom="@+id/imageComiditaTrafi"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="10dp"
-                android:layout_toEndOf="@+id/imageComidita">
+                android:layout_toEndOf="@+id/imageComiditaTrafi">
 
 
                 <TextView
-                    android:id="@+id/nombreComidaPedido"
+                    android:id="@+id/nombreComidaPedidoTrafi"
                     android:layout_width="230dp"
                     android:layout_height="42dp"
                     android:layout_marginBottom="10dp"
@@ -54,7 +54,7 @@
                     android:textSize="18sp" />
 
                 <LinearLayout
-                    android:id="@+id/linerLayout"
+                    android:id="@+id/linerLayoutTrafi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
@@ -63,7 +63,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/titulostockPedido"
+                        android:id="@+id/titulostockPedidoTrafi"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Cantidad:"
@@ -71,7 +71,7 @@
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/precioComidaPedido"
+                        android:id="@+id/precioComidaPedidoTrafi"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
@@ -82,30 +82,21 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/linerLayout2"
+                    android:id="@+id/linerLayout2Trafi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_marginTop="47dp"
-                    android:layout_toEndOf="@+id/linerLayout"
-                    android:layout_toRightOf="@+id/linerLayout"
+                    android:layout_toEndOf="@+id/linerLayoutTrafi"
+                    android:layout_toRightOf="@+id/linerLayoutTrafi"
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/stockComidaPedido"
+                        android:id="@+id/stockComidaPedidoTrafi"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text=" 1"
                         android:textColor="@color/gray"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/estadoComidaPedido"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="70dp"
-                        android:layout_marginTop="4dp"
-                        android:text="En espera"
                         android:textSize="18sp" />
 
                 </LinearLayout>

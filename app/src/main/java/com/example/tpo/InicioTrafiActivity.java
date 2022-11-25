@@ -2,21 +2,49 @@ package com.example.tpo;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class InicioTrafiActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
+    InicioFragmentTrafi inicioFragmentTrafi = new InicioFragmentTrafi();
+    FragmentPedidoComidasTrafi solicitudesFragmentTrafi = new FragmentPedidoComidasTrafi();
+    FragmentNotificacionesTrafi notificacionesFragmentTrafi = new FragmentNotificacionesTrafi();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_inicio_trafi);
+        setContentView(R.layout.activity_inicio_usuario);
+
+        BottomNavigationView navigationView = findViewById(R.id.bottom_navigation_user);
+
+        loadFragment(inicioFragmentTrafi);
+
+        navigationView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()){
+                case R.id.house_user:
+                    loadFragment(inicioFragmentTrafi);
+                    return true;
+                case R.id.solicitud_user:
+                    loadFragment(solicitudesFragmentTrafi);
+                    return true;
+                case R.id.notificacion_user:
+                    loadFragment(notificacionesFragmentTrafi);
+                    return true;
+            }
+            return false;
+        });
+
+
     }
 
 
@@ -46,4 +74,13 @@ public class InicioTrafiActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+    public void loadFragment(Fragment fragment){
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame_container_user,fragment);
+        transaction.commit();
+    }
+
+    /*@Override
+    public void onBackPressed() {
+    }*/
 }

@@ -38,6 +38,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.sql.SQLOutput;
 import java.util.Random;
 
 
@@ -99,29 +100,6 @@ public class MessageFragmentPedirComidaUsuario extends DialogFragment {
         });
 
 
-        ImageButton botonDisminuir = view.findViewById(R.id.disminuirStockPediComidaUsuario);
-        botonDisminuir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                stock = Integer.parseInt(stockTxt.getText().toString());
-                stock = stock - 1;
-                stockTxt.setText(String.valueOf(stock));
-
-            }
-        });
-
-
-        ImageButton botonAumentar = view.findViewById(R.id.aumentarStockPediComidaUsuario);
-        botonAumentar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                stock = Integer.parseInt(stockTxt.getText().toString());
-                stock = stock + 1;
-                stockTxt.setText(String.valueOf(stock));
-            }
-        });
-
-
         databaseReference.child("comidas").child(keyComida).addListenerForSingleValueEvent(new ValueEventListener() {
             Comida comida;
             @Override
@@ -137,9 +115,53 @@ public class MessageFragmentPedirComidaUsuario extends DialogFragment {
 
                 }
 
+
                 TextView precio = view.findViewById(R.id.stockValorComidaUsuario);
                 precio.setText(String.valueOf(comida.getPrecio()));
 
+
+                ImageButton botonDisminuir = view.findViewById(R.id.disminuirStockPediComidaUsuario);
+                botonDisminuir.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        stock = Integer.parseInt(stockTxt.getText().toString());
+                        stock = stock - 1;
+                        stockTxt.setText(String.valueOf(stock));
+
+
+                        String precioMenos = comida.getPrecio();
+                        String precioFormalMenos = "";
+                        for(int k=2;k<precioMenos.length();k++){
+                            precioFormalMenos = precioFormalMenos + precioMenos.charAt(k);
+                        }
+
+                        Double precioTotalMenos = Double.parseDouble(precioFormalMenos)*stock;
+                        precio.setText("S/"+String.valueOf(precioTotalMenos));
+
+                    }
+                });
+
+
+                ImageButton botonAumentar = view.findViewById(R.id.aumentarStockPediComidaUsuario);
+                botonAumentar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        stock = Integer.parseInt(stockTxt.getText().toString());
+                        stock = stock + 1;
+                        stockTxt.setText(String.valueOf(stock));
+
+                        String precioMas = comida.getPrecio();
+                        String precioFormalMas = "";
+                        for(int k=2;k<precioMas.length();k++){
+                            precioFormalMas = precioFormalMas + precioMas.charAt(k);
+                        }
+
+                        Double precioTotalMas = Double.parseDouble(precioFormalMas)*stock;
+                        precio.setText("S/"+String.valueOf(precioTotalMas));
+
+
+                    }
+                });
 
                 Button botonRealizarPedido = view.findViewById(R.id.botonRealizarPedido);
                 botonRealizarPedido.setOnClickListener(new View.OnClickListener() {
@@ -169,9 +191,16 @@ public class MessageFragmentPedirComidaUsuario extends DialogFragment {
                                 }
 
                                 if(guardar){
-
                                     int stockRestante = comida.getStock() - stock;
-                                    precioTotal = Double.parseDouble(comida.getPrecio())*stock;
+
+                                    String precioStr = comida.getPrecio();
+                                    String precioFormal = "";
+                                    for(int k=2;k<precioStr.length();k++){
+                                        precioFormal = precioFormal + precioStr.charAt(k);
+                                        System.out.println(precioFormal);
+                                    }
+
+                                    precioTotal = Double.parseDouble(precioFormal)*stock;
 
                                     if(stockRestante > 0){
                                         databaseReference.child("comidas/"+keyComida).child("stock").setValue(stockRestante);
@@ -224,6 +253,7 @@ public class MessageFragmentPedirComidaUsuario extends DialogFragment {
                             }catch (Exception e){
                                 //error message
                                 System.out.println("ENTRU AL CATCH");
+                                System.out.println(e);
                                 dismiss();
                             }
                         }

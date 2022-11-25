@@ -33,8 +33,8 @@ import java.util.ArrayList;
 import java.util.Set;
 
 
-public class FragmentDetallePedidoComidaUsuario extends Fragment {
-    private String keyPedido;
+public class FragmentDetallePedidoComidaTrafi extends Fragment {
+    String keyPedido;
     private String keyComida;
     private Comida comida;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
@@ -47,12 +47,12 @@ public class FragmentDetallePedidoComidaUsuario extends Fragment {
     FirebaseAuth mAuth;
     String uidUsuario;
 
-    public FragmentDetallePedidoComidaUsuario(String keyPedido){
-        this.keyPedido = keyPedido;
+
+    public FragmentDetallePedidoComidaTrafi() {
     }
 
-
-    public FragmentDetallePedidoComidaUsuario(){
+    public FragmentDetallePedidoComidaTrafi(String keyPedido){
+        this.keyPedido = keyPedido;
     }
 
 
@@ -68,19 +68,18 @@ public class FragmentDetallePedidoComidaUsuario extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_detalle_pedido_comida_usuario, container, false);
 
-        TextView nombrePedidoTXT = view.findViewById(R.id.nombrePedidoComidaDetalle);
-        TextView estadoPedidoTXT = view.findViewById(R.id.estadoPedidoComidaDetalle);
-        TextView precioPedidoTXT = view.findViewById(R.id.precioTotalComidaDetalle);
-        TextView cantidadPedidoTXT = view.findViewById(R.id.cantidadPedidoComidaDetalle);
-        TextView nombreTiendaPedidoTXT = view.findViewById(R.id.tiendaPedidoComidaDetalle);
-        TextView descripcionPedidoTXT = view.findViewById(R.id.descripcionPedidoComidaDetalle);
-        ImageSlider sliderImagenes = view.findViewById(R.id.sliderPedidoComidaDetalle);
-        ImageView imagenUbicacion = view.findViewById(R.id.imagenUbicacionPedidoDetalleUsuario);
+        TextView nombrePedidoTXT = view.findViewById(R.id.nombrePedidoComidaDetalleTrafi);
+        TextView estadoPedidoTXT = view.findViewById(R.id.estadoPedidoComidaDetalleTrafi);
+        TextView precioPedidoTXT = view.findViewById(R.id.precioTotalComidaDetalleTrafi);
+        TextView cantidadPedidoTXT = view.findViewById(R.id.cantidadPedidoComidaDetalleTrafi);
+        TextView descripcionPedidoTXT = view.findViewById(R.id.descripcionPedidoComidaDetalleTrafi);
+        ImageSlider sliderImagenes = view.findViewById(R.id.sliderPedidoComidaDetalleTrafi);
+        ImageView imagenUbicacion = view.findViewById(R.id.imagenUbicacionPedidoDetalleUsuarioTrafi);
+        //Falta la imagen para las coordenadas
 
         databaseReference.child("pedidos/"+keyPedido).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
                 solicitudComida = snapshot.getValue(SolicitudComida.class);
                 keyComida = solicitudComida.getIdComida();
 
@@ -93,7 +92,6 @@ public class FragmentDetallePedidoComidaUsuario extends Fragment {
                             nombrePedidoTXT.setText(String.valueOf(comida.getNombre()));
                             precioPedidoTXT.setText("S/"+String.valueOf(solicitudComida.getPrecioTotal()));
                             cantidadPedidoTXT.setText(String.valueOf(solicitudComida.getCantidad()));
-                            nombreTiendaPedidoTXT.setText("Tienda "+String.valueOf(comida.getIdTienda()));
                             descripcionPedidoTXT.setText(String.valueOf(solicitudComida.getDescripcion()));
 
                             switch (solicitudComida.getEstado()){
@@ -115,9 +113,14 @@ public class FragmentDetallePedidoComidaUsuario extends Fragment {
 
                             estadoPedidoTXT.setText(String.valueOf(solicitudComida.getEstado()));
 
-                            Button botonCancelar = view.findViewById(R.id.botonCancelarPedidoDetalleUsuario);
+                            Button botonCancelar = view.findViewById(R.id.botonTomarPedidoDetalleUsuarioTrafi);
 
                             if(!solicitudComida.getEstado().equals("En espera")){
+                                botonCancelar.setText("Confirmar Pedido");
+                            }
+
+
+                            if(solicitudComida.getEstado().equals("Cancelado") || solicitudComida.getEstado().equals("Entregado")){
                                 botonCancelar.setBackgroundColor(Color.parseColor("#A89F9F"));
                             }else{
                                 botonCancelar.setBackgroundColor(Color.parseColor("#F64141"));
@@ -133,15 +136,33 @@ public class FragmentDetallePedidoComidaUsuario extends Fragment {
                                             double total = solicitudComida.getPrecioTotal();
 
                                             SolicitudComida solicitudComida =
-                                                    new SolicitudComida(uidUsuario,keyComida,idFoto,null,"Cancelado",descp,cant,total);
+                                                    new SolicitudComida(uidUsuario,keyComida,idFoto,null,"En proceso",descp,cant,total);
 
                                             databaseReference.child("pedidos/"+keyPedido).setValue(solicitudComida);
 
                                             AppCompatActivity activity = (AppCompatActivity) getContext();
-                                            activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_user,new FragmentPedidoComidasUsuario()).commit();
+                                            activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_user,new InicioFragmentTrafi()).commit();
                                             //success message
                                         }else{
-                                            //error message
+                                            if(solicitudComida.getEstado().equals("En proceso")){
+                                                uidUsuario = solicitudComida.getIdUsuario();
+
+                                                String idFoto = solicitudComida.getFotoUbicacion();
+                                                String descp = solicitudComida.getDescripcion();
+                                                int cant = solicitudComida.getCantidad();
+                                                double total = solicitudComida.getPrecioTotal();
+
+                                                SolicitudComida solicitudComida =
+                                                        new SolicitudComida(uidUsuario,keyComida,idFoto,null,"Entregado",descp,cant,total);
+
+                                                databaseReference.child("pedidos/"+keyPedido).setValue(solicitudComida);
+
+                                                AppCompatActivity activity = (AppCompatActivity) getContext();
+                                                activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_user,new InicioFragmentTrafi()).commit();
+
+                                            }else{
+                                                //error message
+                                            }
                                         }
                                     }
                                 });
@@ -183,6 +204,8 @@ public class FragmentDetallePedidoComidaUsuario extends Fragment {
                             //----------------------------------------
 
 
+
+
                         }else{
                             //error message
                         }
@@ -205,6 +228,4 @@ public class FragmentDetallePedidoComidaUsuario extends Fragment {
         return  view;
 
     }
-
-
 }

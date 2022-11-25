@@ -18,7 +18,7 @@ public class InicioUsuarioActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
     InicioFragmentUsuario inicioFragmentUsuario = new InicioFragmentUsuario();
-    FragmentSolicitudesUsuario solicitudesFragmentUsuario = new FragmentSolicitudesUsuario();
+    FragmentPedidoComidasUsuario solicitudesFragmentUsuario = new FragmentPedidoComidasUsuario();
     FragmentNotificacionesUsuario notificacionesFragmentUsuario = new FragmentNotificacionesUsuario();
 
     @Override

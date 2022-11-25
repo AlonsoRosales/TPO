@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,8 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.denzcoskun.imageslider.constants.ScaleTypes;
-import com.denzcoskun.imageslider.models.SlideModel;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DataSnapshot;
@@ -25,48 +23,30 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Set;
 
-public class SolicitudesComidaAdapter extends FirebaseRecyclerAdapter<SolicitudComida,SolicitudesComidaAdapter.myViewHolder> {
+public class PedidosAdapterTrafi extends FirebaseRecyclerAdapter<SolicitudComida,PedidosAdapterTrafi.myViewHolder> {
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference = firebaseDatabase.getReference();
-    Comida comida;
     String keyComida;
+    Comida comida;
 
-    public SolicitudesComidaAdapter(@NonNull FirebaseRecyclerOptions<SolicitudComida> options) {
+    public PedidosAdapterTrafi(@NonNull FirebaseRecyclerOptions<SolicitudComida> options) {
         super(options);
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull SolicitudComida solicitudComida) {
-        keyComida = solicitudComida.getIdComida();
+    protected void onBindViewHolder(@NonNull PedidosAdapterTrafi.myViewHolder holder, int position, @NonNull SolicitudComida solicitudComida) {
         int orden = position;
+        keyComida = solicitudComida.getIdComida();
 
         databaseReference.child("comidas/"+keyComida).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.getValue() != null){
+                if(snapshot != null){
                     comida = snapshot.getValue(Comida.class);
 
-                    holder.cantidadPedido.setText(String.valueOf(solicitudComida.getCantidad()));
-                    holder.precioPedido.setText("S/"+String.valueOf(solicitudComida.getPrecioTotal()));
-                    holder.nombrePedido.setText(String.valueOf(comida.getNombre()));
-
-                    switch (solicitudComida.getEstado()){
-                        case "En espera":
-                            holder.estadoPedido.setTextColor(Color.parseColor("#A9A319"));
-                            break;
-                        case "En proceso":
-                            holder.estadoPedido.setTextColor(Color.parseColor("#219C52"));
-                            break;
-                        case "Cancelado":
-                            holder.estadoPedido.setTextColor(Color.parseColor("#EA1313"));
-                            break;
-                        case "Recibido":
-                            holder.estadoPedido.setTextColor(Color.parseColor("#1335EA"));
-                            break;
-                        default:
-                            break;
-                    }
-                    holder.estadoPedido.setText(String.valueOf(solicitudComida.getEstado()));
+                    holder.nombre.setText(String.valueOf(comida.getNombre()));
+                    holder.cantidad.setText(String.valueOf(solicitudComida.getCantidad()));
+                    holder.precio.setText("S/"+String.valueOf(solicitudComida.getPrecioTotal()));
 
                     //------------------IMAGEN------------------------
                     //Seteo de Imagen
@@ -81,25 +61,26 @@ public class SolicitudesComidaAdapter extends FirebaseRecyclerAdapter<SolicitudC
                     for(int j=8;j < (url.length()-1);j++){
                         ruta = ruta + url.charAt(j);
                     }
-                    Glide.with(holder.imagenComidaPedido.getContext()).load(ruta).override(100,125).into(holder.imagenComidaPedido);
+
+                    Glide.with(holder.imagenComida.getContext()).load(ruta).override(100,125).into(holder.imagenComida);
                     //----------------------------------------
 
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             String keyPedido = getRef(orden).getKey();
-
                             AppCompatActivity activity = (AppCompatActivity) view.getContext();
                             activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_user,
-                                    new FragmentDetallePedidoComidaUsuario(keyPedido)).addToBackStack(null).commit();
-
+                                    new FragmentDetallePedidoComidaTrafi(keyPedido)).addToBackStack(null).commit();
                         }
                     });
 
                 }else{
                     //error message
                 }
+
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 //error message
@@ -109,31 +90,28 @@ public class SolicitudesComidaAdapter extends FirebaseRecyclerAdapter<SolicitudC
     }
 
 
-
     @NonNull
     @Override
-    public myViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lista_pedidos,parent,false);
-        return new myViewHolder(view);
+    public PedidosAdapterTrafi.myViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+       View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lista_pedidos_trafi,parent,false);
+        return new PedidosAdapterTrafi.myViewHolder(view);
     }
 
 
     public class myViewHolder extends RecyclerView.ViewHolder{
-        TextView nombrePedido;
-        TextView cantidadPedido;
-        TextView precioPedido;
-        TextView estadoPedido;
-        ImageView imagenComidaPedido;
+        TextView cantidad;
+        TextView nombre;
+        TextView precio;
+        ImageView imagenComida;
 
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            nombrePedido = itemView.findViewById(R.id.nombreComidaPedido);
-            cantidadPedido = itemView.findViewById(R.id.stockComidaPedido);
-            precioPedido = itemView.findViewById(R.id.precioComidaPedido);
-            estadoPedido = itemView.findViewById(R.id.estadoComidaPedido);
-            imagenComidaPedido = itemView.findViewById(R.id.imageComidita);
-
+            nombre = itemView.findViewById(R.id.nombreComidaPedidoTrafi);
+            cantidad = itemView.findViewById(R.id.stockComidaPedidoTrafi);
+            precio = itemView.findViewById(R.id.precioComidaPedidoTrafi);
+            imagenComida = itemView.findViewById(R.id.imageComiditaTrafi);
         }
     }
+
+
 }

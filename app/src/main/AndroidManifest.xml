@@ -34,7 +34,8 @@
             android:theme="@style/Theme.TPO.InicioEmpresario" />
         <activity
             android:name=".InicioTrafiActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.TPO.InicioUsuario"/>
         <activity
             android:name=".InicioUsuarioActivity"
             android:exported="false"
