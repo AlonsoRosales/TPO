@@ -2,4 +2,6 @@
     <string name="app_name">TPO</string>
     <string name="create_una"><u>Create una</u></string>
     <string name="inicia_sesion"><u>Inicia sesion</u></string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

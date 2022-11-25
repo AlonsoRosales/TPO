@@ -38,6 +38,7 @@
         <activity
             android:name=".InicioUsuarioActivity"
             android:exported="false"
+            android:windowSoftInputMode="adjustNothing"
             android:theme="@style/Theme.TPO.InicioUsuario" />
         <activity
             android:name=".RegistroActivity"

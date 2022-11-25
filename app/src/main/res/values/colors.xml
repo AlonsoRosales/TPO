@@ -11,4 +11,5 @@
     <color name="rodLOGIN">#FF0000</color>
     <color name="gray">#757070</color>
     <color name="titulo_comida">#1E1E1E</color>
+    <color name="fondido_sin_stock">#A89F9F</color>
 </resources>
