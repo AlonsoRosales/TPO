@@ -234,7 +234,7 @@ public class MessageFragmentPedirComidaUsuario extends DialogFragment {
                                     uidUsuario = mAuth.getCurrentUser().getUid();
 
                                     SolicitudComida solicitudComida =
-                                            new SolicitudComida(uidUsuario,keyComida,idFoto,null,"En espera",descripcion,stock,precioTotal);
+                                            new SolicitudComida(uidUsuario,keyComida,idFoto,null,"En espera",descripcion,stock,precioTotal,1);
 
                                     databaseReference.child("pedidos").push().setValue(solicitudComida);
 

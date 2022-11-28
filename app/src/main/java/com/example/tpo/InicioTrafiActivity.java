@@ -17,15 +17,15 @@ public class InicioTrafiActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
     InicioFragmentTrafi inicioFragmentTrafi = new InicioFragmentTrafi();
-    FragmentPedidoComidasTrafi solicitudesFragmentTrafi = new FragmentPedidoComidasTrafi();
+    FragmentHistorialPedidosTrafi solicitudesFragmentTrafi = new FragmentHistorialPedidosTrafi();
     FragmentNotificacionesTrafi notificacionesFragmentTrafi = new FragmentNotificacionesTrafi();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_inicio_usuario);
+        setContentView(R.layout.activity_inicio_trafi);
 
-        BottomNavigationView navigationView = findViewById(R.id.bottom_navigation_user);
+        BottomNavigationView navigationView = findViewById(R.id.bottom_navigation_trafi);
 
         loadFragment(inicioFragmentTrafi);
 
@@ -76,7 +76,7 @@ public class InicioTrafiActivity extends AppCompatActivity {
 
     public void loadFragment(Fragment fragment){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_container_user,fragment);
+        transaction.replace(R.id.frame_container_trafi,fragment);
         transaction.commit();
     }
 

@@ -13,15 +13,26 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 
-public class InicioFragmentTrafi extends Fragment {
+public class InicioFragmentEmpresario extends Fragment {
     RecyclerView recycleview;
-    PedidosAdapterTrafi adapter;
+    ComidasAdapterEmpresario adapter;
+    String uidEmpresario;
+    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    DatabaseReference databaseReference = firebaseDatabase.getReference();
+    View view;
 
-
-    public InicioFragmentTrafi() {
+    public InicioFragmentEmpresario() {
 
     }
 
@@ -40,17 +51,18 @@ public class InicioFragmentTrafi extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_inicio_trafi,container,false);
+        view = inflater.inflate(R.layout.fragment_inicio_empresario,container,false);
 
-        recycleview = (RecyclerView) view.findViewById(R.id.recyclerpedidostrafi);
+        recycleview = (RecyclerView) view.findViewById(R.id.recyclercomidasempresario);
         recycleview.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        FirebaseRecyclerOptions<SolicitudComida> options = new FirebaseRecyclerOptions.Builder<SolicitudComida>()
-                .setQuery(FirebaseDatabase.getInstance().getReference().child("pedidos")
-                        .orderByChild("identificador").equalTo(1),SolicitudComida.class)
+        //AHORA ES ADMIN Y YA NO EMPRESARIO
+        FirebaseRecyclerOptions<Comida> options = new FirebaseRecyclerOptions.Builder<Comida>()
+                .setQuery(FirebaseDatabase.getInstance().getReference().child("comidas"),Comida.class)
                 .build();
 
-        adapter = new PedidosAdapterTrafi(options);
+        adapter = new ComidasAdapterEmpresario(options);
+
         recycleview.setAdapter(adapter);
 
         return view;

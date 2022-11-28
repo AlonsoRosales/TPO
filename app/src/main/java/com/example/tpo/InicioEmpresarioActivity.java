@@ -2,6 +2,8 @@ package com.example.tpo;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,6 +17,7 @@ import android.widget.Toolbar;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -29,91 +32,16 @@ import java.util.List;
 
 public class InicioEmpresarioActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    DatabaseReference databaseReference = firebaseDatabase.getReference();
 
-    /*FirebaseRecyclerOptions<Comida> options;
-    RecyclerView recycleview;
-    ComidasAdapter adapter;*/
-    private List<Comida> comidas;
-    private Context mContext;
-
-    public InicioEmpresarioActivity(Context mContext) {
-        this.mContext = mContext;
-    }
-
-    public InicioEmpresarioActivity() {
-    }
-
+    InicioFragmentEmpresario inicioFragmentEmpresario = new InicioFragmentEmpresario();
+    FragmentAgregarComidaEmpresario fragmentAgregarComidaEmpresario = new FragmentAgregarComidaEmpresario();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio_empresario);
 
-        String uidEmpresario = firebaseAuth.getCurrentUser().getUid();
-        databaseReference.child("usuarios/"+uidEmpresario).child("tienda").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String idTienda = snapshot.getValue(String.class);
-                databaseReference.child("tiendas").child(idTienda).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        Tienda tienda = snapshot.getValue(Tienda.class);
-
-                        getSupportActionBar().setTitle("Lista de Comidas - "+ tienda.getNombre());
-
-                        databaseReference.child("comidas").orderByChild("estado").equalTo("1").addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                comidas = new ArrayList<Comida>();
-                                for(DataSnapshot children: snapshot.getChildren()){
-                                    Comida comida1 = children.getValue(Comida.class);
-                                    if(!comida1.getEstado().equals("0")){
-                                        comidas.add(comida1);
-                                    }
-
-                                }
-
-                                if(comidas.size() != 0){
-                                    System.out.println("TAMAÑO:"+comidas.size());
-                                    System.out.println("ENTREEEEE");
-                                    ComidasAdapter comidasAdapter = new ComidasAdapter();
-                                    comidasAdapter.setListaComidas(comidas);
-                                    comidasAdapter.setContext(InicioEmpresarioActivity.this);
-                                    RecyclerView recyclerView = findViewById(R.id.recyclercomidas);
-                                    recyclerView.setAdapter(comidasAdapter);
-                                    recyclerView.setLayoutManager(new LinearLayoutManager(InicioEmpresarioActivity.this));
-                                }else{
-                                    ComidasAdapter comidasAdapter = new ComidasAdapter();
-                                    comidasAdapter.setListaComidas(comidas);
-                                    comidasAdapter.setContext(InicioEmpresarioActivity.this);
-                                    RecyclerView recyclerView = findViewById(R.id.recyclercomidas);
-                                    recyclerView.setAdapter(comidasAdapter);
-                                    recyclerView.setLayoutManager(new LinearLayoutManager(InicioEmpresarioActivity.this));
-                                }
-
-                            }
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                                //error message
-                            }
-                        });
-
-
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        //error message
-                    }
-
-                });
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                //error message
-            }
-        });
+        loadFragment(inicioFragmentEmpresario);
 
 
     }
@@ -125,16 +53,15 @@ public class InicioEmpresarioActivity extends AppCompatActivity {
         return true;
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
 
         switch (item.getItemId()){
+            case R.id.agregar_empresario:
+                loadFragment(fragmentAgregarComidaEmpresario);
+                break;
             case R.id.cerrarSesion_empresario:
                 cerrarSesion();
-                break;
-            case R.id.agregar_empresario:
-                agregarComidaEmpresario();
                 break;
         }
 
@@ -148,9 +75,14 @@ public class InicioEmpresarioActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-    public void agregarComidaEmpresario(){
-        Intent i = new Intent(InicioEmpresarioActivity.this,AgregarComidaEmpresarioActivity.class);
-        startActivity(i);
+    public void loadFragment(Fragment fragment){
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame_container_empresario,fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
+    /*@Override
+    public void onBackPressed() {
+    }*/
 }

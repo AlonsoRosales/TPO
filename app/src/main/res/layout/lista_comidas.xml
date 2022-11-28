@@ -11,6 +11,7 @@
     app:cardUseCompatPadding="true">
 
     <LinearLayout
+        android:id="@+id/fondo_comida_empresario"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
@@ -23,9 +24,9 @@
             android:padding="10dp">
 
             <ImageView
-                android:id="@+id/iconImageViewComida"
+                android:id="@+id/imagenComidaEmpresario"
                 android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_height="125dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
@@ -35,19 +36,19 @@
 
             <RelativeLayout
                 android:layout_width="265dp"
-                android:layout_height="100dp"
-                android:layout_alignTop="@+id/iconImageViewComida"
-                android:layout_alignBottom="@+id/iconImageViewComida"
+                android:layout_height="125dp"
+                android:layout_alignTop="@+id/imagenComidaEmpresario"
+                android:layout_alignBottom="@+id/imagenComidaEmpresario"
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="10dp"
-                android:layout_toEndOf="@+id/iconImageViewComida">
+                android:layout_toEndOf="@+id/imagenComidaEmpresario">
 
 
                 <TextView
-                    android:id="@+id/nombreComida"
+                    android:id="@+id/nombreComidaEmpresario"
                     android:layout_width="230dp"
                     android:layout_height="42dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="5dp"
                     android:text="Chifa(Tipakay + Wantan)Hao Chi"
                     android:textColor="@color/titulo_comida"
                     android:textSize="18sp" />
@@ -58,11 +59,11 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_marginStart="1dp"
-                    android:layout_marginTop="47dp"
+                    android:layout_marginTop="39dp"
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/titulostock"
+                        android:id="@+id/titulostockEmpresario"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Stock:"
@@ -70,13 +71,33 @@
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/precioComida"
+                        android:id="@+id/precioComidaEmpresario"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="20dp"
                         android:text="S/10.00"
                         android:textColor="@color/red"
                         android:textSize="18sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/Layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginTop="61dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/titulotiendaEmpresario"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Tienda:"
+                        android:textColor="@color/gray"
+                        android:textSize="18sp" />
+
 
                 </LinearLayout>
 
@@ -85,21 +106,36 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:layout_marginTop="47dp"
+                    android:layout_marginTop="39dp"
                     android:layout_toEndOf="@+id/linerLayout"
                     android:layout_toRightOf="@+id/linerLayout"
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/stockComida"
+                        android:id="@+id/stockComidaEmpresario"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="40"
                         android:textColor="@color/gray"
                         android:textSize="18sp" />
 
-                </LinearLayout>
+                    <TextView
+                        android:id="@+id/tiendaComidaEmpresario"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Tienda A"
+                        android:textColor="@color/gray"
+                        android:textSize="18sp" />
 
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/estadoComidaEmpresario"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="145dp"
+                    android:layout_marginTop="80dp"
+                    android:text="No Disponible"
+                    android:textSize="18sp" />
             </RelativeLayout>
 
 

@@ -16,12 +16,12 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.FirebaseDatabase;
 
 
-public class InicioFragmentTrafi extends Fragment {
+public class FragmentHistorialPedidosTrafi extends Fragment {
     RecyclerView recycleview;
     PedidosAdapterTrafi adapter;
 
 
-    public InicioFragmentTrafi() {
+    public FragmentHistorialPedidosTrafi() {
 
     }
 
@@ -40,14 +40,14 @@ public class InicioFragmentTrafi extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_inicio_trafi,container,false);
+        View view = inflater.inflate(R.layout.fragment_historial_pedidos_trafi,container,false);
 
-        recycleview = (RecyclerView) view.findViewById(R.id.recyclerpedidostrafi);
+        recycleview = (RecyclerView) view.findViewById(R.id.recyclerhistorialtrafi);
         recycleview.setLayoutManager(new LinearLayoutManager(getContext()));
 
         FirebaseRecyclerOptions<SolicitudComida> options = new FirebaseRecyclerOptions.Builder<SolicitudComida>()
                 .setQuery(FirebaseDatabase.getInstance().getReference().child("pedidos")
-                        .orderByChild("identificador").equalTo(1),SolicitudComida.class)
+                        .orderByChild("identificador").equalTo(0),SolicitudComida.class)
                 .build();
 
         adapter = new PedidosAdapterTrafi(options);

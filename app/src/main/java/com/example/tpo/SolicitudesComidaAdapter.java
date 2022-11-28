@@ -68,6 +68,31 @@ public class SolicitudesComidaAdapter extends FirebaseRecyclerAdapter<SolicitudC
                     }
                     holder.estadoPedido.setText(String.valueOf(solicitudComida.getEstado()));
 
+
+                    //------------------IMAGEN------------------------
+                    //Seteo de Imagen
+                    if(comida.getImagenes() != null){
+                        Set<String> images = comida.getImagenes().keySet();
+                        String[] img = images.toArray(new String[images.size()]);
+
+                        //Obtenemos una imagen aleatoria
+                        int n = 0;
+                        if(img.length != 1){
+                            n = (int) (Math.random() * (img.length - 1)) + 1;
+                        }
+                        //int n = (int) (Math.random() * (img.length - 1)) + 1;
+
+                        String url = String.valueOf(comida.getImagenes().get(img[n]));
+                        String ruta = "";
+                        for(int j=8;j < (url.length()-1);j++){
+                            ruta = ruta + url.charAt(j);
+                        }
+
+                        Glide.with(holder.imagenComidaPedido.getContext()).load(ruta).override(100,125).into(holder.imagenComidaPedido);
+                    }
+                    //----------------------------------------
+
+                    /*
                     //------------------IMAGEN------------------------
                     //Seteo de Imagen
                     Set<String> images = comida.getImagenes().keySet();
@@ -83,6 +108,8 @@ public class SolicitudesComidaAdapter extends FirebaseRecyclerAdapter<SolicitudC
                     }
                     Glide.with(holder.imagenComidaPedido.getContext()).load(ruta).override(100,125).into(holder.imagenComidaPedido);
                     //----------------------------------------
+                    */
+
 
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override

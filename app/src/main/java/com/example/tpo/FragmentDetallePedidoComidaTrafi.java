@@ -66,7 +66,7 @@ public class FragmentDetallePedidoComidaTrafi extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_detalle_pedido_comida_usuario, container, false);
+        View view = inflater.inflate(R.layout.fragment_detalle_pedido_comida_trafi, container, false);
 
         TextView nombrePedidoTXT = view.findViewById(R.id.nombrePedidoComidaDetalleTrafi);
         TextView estadoPedidoTXT = view.findViewById(R.id.estadoPedidoComidaDetalleTrafi);
@@ -88,8 +88,7 @@ public class FragmentDetallePedidoComidaTrafi extends Fragment {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.getValue() != null){
                             comida = snapshot.getValue(Comida.class);
-
-                            nombrePedidoTXT.setText(String.valueOf(comida.getNombre()));
+                            nombrePedidoTXT.setText(comida.getNombre());
                             precioPedidoTXT.setText("S/"+String.valueOf(solicitudComida.getPrecioTotal()));
                             cantidadPedidoTXT.setText(String.valueOf(solicitudComida.getCantidad()));
                             descripcionPedidoTXT.setText(String.valueOf(solicitudComida.getDescripcion()));
@@ -104,7 +103,7 @@ public class FragmentDetallePedidoComidaTrafi extends Fragment {
                                 case "Cancelado":
                                     estadoPedidoTXT.setTextColor(Color.parseColor("#EA1313"));
                                     break;
-                                case "Recibido":
+                                case "Entregado":
                                     estadoPedidoTXT.setTextColor(Color.parseColor("#1335EA"));
                                     break;
                                 default:
@@ -122,6 +121,7 @@ public class FragmentDetallePedidoComidaTrafi extends Fragment {
 
                             if(solicitudComida.getEstado().equals("Cancelado") || solicitudComida.getEstado().equals("Entregado")){
                                 botonCancelar.setBackgroundColor(Color.parseColor("#A89F9F"));
+
                             }else{
                                 botonCancelar.setBackgroundColor(Color.parseColor("#F64141"));
                                 botonCancelar.setOnClickListener(new View.OnClickListener() {
@@ -136,12 +136,13 @@ public class FragmentDetallePedidoComidaTrafi extends Fragment {
                                             double total = solicitudComida.getPrecioTotal();
 
                                             SolicitudComida solicitudComida =
-                                                    new SolicitudComida(uidUsuario,keyComida,idFoto,null,"En proceso",descp,cant,total);
+                                                    new SolicitudComida(uidUsuario,keyComida,idFoto,null,"En proceso",descp,cant,total,1);
 
                                             databaseReference.child("pedidos/"+keyPedido).setValue(solicitudComida);
 
+
                                             AppCompatActivity activity = (AppCompatActivity) getContext();
-                                            activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_user,new InicioFragmentTrafi()).commit();
+                                            activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_trafi,new InicioFragmentTrafi()).commit();
                                             //success message
                                         }else{
                                             if(solicitudComida.getEstado().equals("En proceso")){
@@ -153,12 +154,12 @@ public class FragmentDetallePedidoComidaTrafi extends Fragment {
                                                 double total = solicitudComida.getPrecioTotal();
 
                                                 SolicitudComida solicitudComida =
-                                                        new SolicitudComida(uidUsuario,keyComida,idFoto,null,"Entregado",descp,cant,total);
+                                                        new SolicitudComida(uidUsuario,keyComida,idFoto,null,"Entregado",descp,cant,total,0);
 
                                                 databaseReference.child("pedidos/"+keyPedido).setValue(solicitudComida);
 
                                                 AppCompatActivity activity = (AppCompatActivity) getContext();
-                                                activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_user,new InicioFragmentTrafi()).commit();
+                                                activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_trafi,new InicioFragmentTrafi()).commit();
 
                                             }else{
                                                 //error message

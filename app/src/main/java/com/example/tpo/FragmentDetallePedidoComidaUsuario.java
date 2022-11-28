@@ -133,7 +133,7 @@ public class FragmentDetallePedidoComidaUsuario extends Fragment {
                                             double total = solicitudComida.getPrecioTotal();
 
                                             SolicitudComida solicitudComida =
-                                                    new SolicitudComida(uidUsuario,keyComida,idFoto,null,"Cancelado",descp,cant,total);
+                                                    new SolicitudComida(uidUsuario,keyComida,idFoto,null,"Cancelado",descp,cant,total,0);
 
                                             databaseReference.child("pedidos/"+keyPedido).setValue(solicitudComida);
 
