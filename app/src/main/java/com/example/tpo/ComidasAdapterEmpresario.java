@@ -32,6 +32,7 @@ import java.util.Set;
 public class ComidasAdapterEmpresario  extends FirebaseRecyclerAdapter<Comida,ComidasAdapterEmpresario.myViewHolder> {
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference = firebaseDatabase.getReference();
+    MessageFragmentCRUDEmpresario messageFragmentCRUDEmpresario;
 
     public ComidasAdapterEmpresario(@NonNull FirebaseRecyclerOptions<Comida> options) {
         super(options);
@@ -114,6 +115,20 @@ public class ComidasAdapterEmpresario  extends FirebaseRecyclerAdapter<Comida,Co
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                 activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_empresario,
                         new FragmentDetalleComidaEmpresario(keyComida)).addToBackStack(null).commit();
+            }
+        });
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                String keyComida = getRef(orden).getKey();
+
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                messageFragmentCRUDEmpresario = new MessageFragmentCRUDEmpresario(keyComida);
+
+                messageFragmentCRUDEmpresario.show(activity.getSupportFragmentManager(),"Mi Fragment CRUD Comida");
+
+                return false;
             }
         });
 

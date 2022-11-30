@@ -20,8 +20,11 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -32,13 +35,13 @@ import java.util.HashMap;
 
 
 public class FragmentActualizarComidaEmpresario extends Fragment {
-    String uidEmpresario;
-    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference = firebaseDatabase.getReference();
     String keyComida;
     FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
     StorageReference imageRef = firebaseStorage.getReference();
+
     String nombre;
     int stock;
     String precio;
@@ -46,6 +49,7 @@ public class FragmentActualizarComidaEmpresario extends Fragment {
     String idTienda;
     EditText stockTxt;
     TextView avisoTxt;
+
     private int PICK_IMAGE = 1;
     private int upload_count;
     ArrayList<Uri> ImageList = new ArrayList<>();
@@ -75,36 +79,17 @@ public class FragmentActualizarComidaEmpresario extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_actualizar_comida_empresario,container,false);
 
-        /*avisoTxt = view.findViewById(R.id.avisoTextEmpresario);
 
-        stockTxt = view.findViewById(R.id.stockEmpresario);
-        stock = Integer.parseInt(stockTxt.getText().toString());
+        TextView nombreComida = view.findViewById(R.id.nombreComida2updateempresario);
+        TextView precioComida = view.findViewById(R.id.precio2updateempresario);
 
-        ImageButton botonAgregarImagenes = view.findViewById(R.id.variasImagenesEmpresario);
+        avisoTxt = view.findViewById(R.id.avisoText2updateempresario);
+
+        stockTxt = view.findViewById(R.id.stock2updateempresario);
 
 
-        ImageButton botonDisminuir = view.findViewById(R.id.disminuirStockEmpresario);
-        botonDisminuir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //EditText stockTxt1 = view.findViewById(R.id.stockEmpresario);
-                //stock = Integer.parseInt(stockTxt1.getText().toString());
-                stock = stock - 1;
-                stockTxt.setText(String.valueOf(stock));
+        ImageButton botonAgregarImagenes = view.findViewById(R.id.variasImagenes2updateempresario);
 
-            }
-        });
-
-        ImageButton botonAumentar = view.findViewById(R.id.aumentarStockEmpresario);
-        botonAumentar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //EditText stockTxt2 = view.findViewById(R.id.stockEmpresario);
-                //stock = Integer.parseInt(stockTxt2.getText().toString());
-                stock = stock + 1;
-                stockTxt.setText(String.valueOf(stock));
-            }
-        });
 
         botonAgregarImagenes.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,136 +101,141 @@ public class FragmentActualizarComidaEmpresario extends Fragment {
             }
         });
 
-        EditText nombreTxt = view.findViewById(R.id.nombreComidaEmpresario2);
-        EditText precioTxt = view.findViewById(R.id.precioEmpresario);
-        EditText idTiendaTxt = view.findViewById(R.id.tiendaEmpresario);
-        EditText descripcionTxt = view.findViewById(R.id.descripcionEmpresario);
+        EditText descripcionTxt = view.findViewById(R.id.descripcion2updateempresario);
 
-        Button botonAgregarComida = view.findViewById(R.id.botonAgregarEmpresario);
-        botonAgregarComida.setOnClickListener(new View.OnClickListener() {
+
+        databaseReference.child("comidas/"+keyComida).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(View view) {
-                boolean guardar = true;
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot != null){
+                    Comida comida = snapshot.getValue(Comida.class);
+                    nombreComida.setText(comida.getNombre());
+                    precioComida.setText(comida.getPrecio());
+                    descripcionTxt.setText(comida.getDescripcion());
 
-                try{
-                    //EditText nombreTxt = view.findViewById(R.id.nombreComidaEmpresario2);
-                    System.out.println("NOMBRE: "+nombreTxt.getText().toString());
 
-                    //EditText precioTxt = view.findViewById(R.id.precioEmpresario);
-                    System.out.println("PRECIO: "+precioTxt.getText().toString());
+                    stockTxt.setText(String.valueOf(comida.getStock()));
+                    stock = comida.getStock();
 
-                    //EditText idTiendaTxt = view.findViewById(R.id.tiendaEmpresario);
-                    System.out.println("TIENDA: "+ idTiendaTxt.getText().toString());
+                    ImageButton botonDisminuir = view.findViewById(R.id.disminuirStock2updateempresario);
+                    botonDisminuir.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            stock = stock - 1;
+                            stockTxt.setText(String.valueOf(stock));
 
-                    //EditText descripcionTxt = view.findViewById(R.id.descripcionEmpresario);
-                    System.out.println("DESCRIPCION: "+ descripcionTxt.getText().toString());
-
-                    nombre = nombreTxt.getText().toString();
-                    if (nombre.equalsIgnoreCase("") || nombre == null || nombre.isEmpty()) {
-                        nombreTxt.setError("Ingrese un nombre");
-                        guardar = false;
-                    }
-
-                    precio = precioTxt.getText().toString();
-                    if (precio.equalsIgnoreCase("") || precio == null || precio.isEmpty()) {
-                        precioTxt.setError("Ingrese un precio");
-                        guardar = false;
-                    }
-
-                    descripcion = descripcionTxt.getText().toString();
-                    if (descripcion.equalsIgnoreCase("") || descripcion == null || descripcion.isEmpty()) {
-                        descripcionTxt.setError("Ingrese una descripción");
-                        guardar = false;
-                    }
-
-                    //stock = Integer.parseInt(stockTxt.getText().toString());
-                    if(stock <= 0){
-                        stockTxt.setError("Ingrese un stock positivo");
-                        guardar = false;
-                    }
-
-                    try {
-                        idTienda = idTiendaTxt.getText().toString();
-                        int tienda = Integer.parseInt(idTienda);
-                        if(tienda <= 0){
-                            idTiendaTxt.setError("Ingrese un id valido");
-                            guardar = false;
                         }
+                    });
 
-                    }catch (NumberFormatException e){
-                        idTiendaTxt.setError("Ingrese un id valido");
-                        guardar = false;
-                    }
-
-                    if(ImageList.size() == 0){
-                        avisoTxt.setText("Ingrese múltiples imágenes!");
-                        avisoTxt.setTextColor(Color.parseColor("#FF0000"));
-                        guardar = false;
-                    }
+                    ImageButton botonAumentar = view.findViewById(R.id.aumentarStock2updateempresario);
+                    botonAumentar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            stock = stock + 1;
+                            stockTxt.setText(String.valueOf(stock));
+                        }
+                    });
 
 
-                    if(guardar){
-                        Comida comida = new Comida(nombre,precio,descripcion,stock,null,"1",idTienda);
-                        //uidEmpresario = firebaseAuth.getCurrentUser().getUid();
+                    Button botonAgregarComida = view.findViewById(R.id.botonAgregar2updateempresario);
+                    botonAgregarComida.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            boolean guardar = true;
 
-                        //databaseReference.child("comidas").push().setValue(comida);
+                            try{
 
-                        String ID = randomID();
-                        final int[] unavez = {1};
-                        for(upload_count = 0;upload_count < ImageList.size(); upload_count++){
-                            Uri individualImage = ImageList.get(upload_count);
-                            String randomName = randomString();
-                            StorageReference imageName = imageRef.child(randomName+individualImage.getLastPathSegment());
-
-                            imageName.putFile(individualImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                @Override
-                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                    imageName.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                        @Override
-                                        public void onSuccess(Uri uri) {
-                                            String url = String.valueOf(uri);
-
-                                            HashMap<String, Object> valorcito = new HashMap<>();
-
-                                            valorcito.put("imagen",url);
-                                            //comida.setImagenes(valorcito);
-
-                                            if(unavez[0] == 1){
-                                                databaseReference.child("comidas").child(ID).setValue(comida);
-                                                databaseReference.child("comidas").child(ID).child("imagenes").push().setValue(valorcito);
-
-                                            }else{
-                                                databaseReference.child("comidas/"+ID).child("imagenes").push().setValue(valorcito);
-                                            }
-
-                                            unavez[0]++;
-                                        }
-                                    });
+                                descripcion = descripcionTxt.getText().toString();
+                                if (descripcion.equalsIgnoreCase("") || descripcion == null || descripcion.isEmpty()) {
+                                    descripcionTxt.setError("Ingrese una descripción");
+                                    guardar = false;
                                 }
-                            });
+
+                                //stock = Integer.parseInt(stockTxt.getText().toString());
+                                if(stock <= 0){
+                                    stockTxt.setError("Ingrese un stock positivo");
+                                    guardar = false;
+                                }
+
+
+                                if(ImageList.size() == 0){
+                                    avisoTxt.setText("Ingrese múltiples imágenes!");
+                                    avisoTxt.setTextColor(Color.parseColor("#FF0000"));
+                                    guardar = false;
+                                }
+
+
+                                if(guardar){
+                                    nombre = comida.getNombre();
+                                    precio = comida.getPrecio();
+                                    idTienda = comida.getIdTienda();
+
+                                    Comida comida = new Comida(nombre,precio,descripcion,stock,null,"1",idTienda);
+
+                                    final int[] unavez = {1};
+                                    for(upload_count = 0;upload_count < ImageList.size(); upload_count++){
+                                        Uri individualImage = ImageList.get(upload_count);
+                                        String randomName = randomString();
+                                        StorageReference imageName = imageRef.child(randomName+individualImage.getLastPathSegment());
+
+                                        imageName.putFile(individualImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                            @Override
+                                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                                imageName.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                    @Override
+                                                    public void onSuccess(Uri uri) {
+                                                        String url = String.valueOf(uri);
+
+                                                        HashMap<String, Object> valorcito = new HashMap<>();
+
+                                                        valorcito.put("imagen",url);
+
+                                                        if(unavez[0] == 1){
+                                                            databaseReference.child("comidas/"+keyComida).setValue(comida);
+                                                            databaseReference.child("comidas").child(keyComida).child("imagenes").push().setValue(valorcito);
+
+                                                        }else{
+                                                            databaseReference.child("comidas/"+keyComida).child("imagenes").push().setValue(valorcito);
+                                                        }
+
+                                                        unavez[0]++;
+                                                    }
+                                                });
+                                            }
+                                        });
+
+                                    }
+
+                                    AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_empresario,
+                                            new InicioFragmentEmpresario()).addToBackStack(null).commit();
+                                    //success message
+
+                                }else{
+                                    //error message
+                                    System.out.println("entro al else");
+                                }
+
+                            }catch(Exception e){
+                                //error message
+                                System.out.println(e);
+                                System.out.println("entro al catch");
+                            }
 
                         }
+                    });
 
-
-                        AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                        activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_empresario,
-                                new InicioFragmentEmpresario()).addToBackStack(null).commit();
-                        //success message
-
-                    }else{
-                        //error message
-                        System.out.println("entro al else");
-                    }
-
-                }catch(Exception e){
+                }else{
                     //error message
-                    System.out.println(e);
-                    System.out.println("entro al catch");
                 }
 
             }
-        });*/
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                //error message
+            }
+        });
 
         return view;
     }
