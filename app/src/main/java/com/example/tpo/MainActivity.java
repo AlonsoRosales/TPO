@@ -32,8 +32,6 @@ public class MainActivity extends AppCompatActivity {
     String correo;
     String contrasena;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

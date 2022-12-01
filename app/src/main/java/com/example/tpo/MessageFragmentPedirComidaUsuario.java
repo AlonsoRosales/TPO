@@ -1,32 +1,42 @@
 package com.example.tpo;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
+import android.os.Looper;
 import android.provider.MediaStore;
-import android.view.Gravity;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,9 +46,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
 import java.io.ByteArrayOutputStream;
-import java.sql.SQLOutput;
 import java.util.Random;
 
 
@@ -57,6 +65,11 @@ public class MessageFragmentPedirComidaUsuario extends DialogFragment {
     TextView descripcionTXT;
     TextView stockTxt;
     Double precioTotal;
+    String idFoto;
+    String coordenadas;
+    private FusedLocationProviderClient client;
+
+
     public MessageFragmentPedirComidaUsuario(String keyComida) {
         this.keyComida = keyComida;
     }
@@ -210,7 +223,7 @@ public class MessageFragmentPedirComidaUsuario extends DialogFragment {
                                     }
 
 
-                                    String idFoto = getRandomString();
+                                    idFoto = getRandomString();
 
                                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                                     imgBitMap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -231,7 +244,25 @@ public class MessageFragmentPedirComidaUsuario extends DialogFragment {
                                     });
 
 
-                                    uidUsuario = mAuth.getCurrentUser().getUid();
+                                    //Sacamos las coordenadas
+                                    client = LocationServices.getFusedLocationProviderClient(getActivity());
+                                    if(ContextCompat.checkSelfPermission(getActivity()
+                                            ,Manifest.permission.ACCESS_FINE_LOCATION)
+                                            == PackageManager.PERMISSION_GRANTED &&
+                                            ContextCompat.checkSelfPermission(getActivity()
+                                                    ,Manifest.permission.ACCESS_COARSE_LOCATION)
+                                    == PackageManager.PERMISSION_GRANTED){
+
+                                        getCurrentLocation();
+
+                                    }else{
+                                        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION
+                                        ,Manifest.permission.ACCESS_COARSE_LOCATION},100);
+
+                                    }
+
+
+                                    /*uidUsuario = mAuth.getCurrentUser().getUid();
 
                                     SolicitudComida solicitudComida =
                                             new SolicitudComida(uidUsuario,keyComida,idFoto,null,"En espera",descripcion,stock,precioTotal,1);
@@ -241,7 +272,7 @@ public class MessageFragmentPedirComidaUsuario extends DialogFragment {
                                     AppCompatActivity activity = (AppCompatActivity) getContext();
                                     activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_user,new InicioFragmentUsuario()).commit();
                                     //success message
-                                    dismiss();
+                                    dismiss();*/
 
                                 }else{
                                     //message error -> campos incorrectos
@@ -276,6 +307,93 @@ public class MessageFragmentPedirComidaUsuario extends DialogFragment {
         builder.setView(view);
 
         return builder.create();
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,@NonNull String[] permissions,@NonNull int[] grantResults){
+        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
+
+        if(requestCode == 100 && (grantResults.length > 0) &&
+                (grantResults[0] + grantResults[1] == PackageManager.PERMISSION_GRANTED)){
+
+            System.out.println("ENTRO AL OVERRIDE ON REQUEST");
+            getCurrentLocation();
+
+        }else{
+            System.out.println("ERROR MESSAGE");
+            //denied permissions - message error
+        }
+
+    }
+
+    @SuppressLint("MissingPermission")
+    public void getCurrentLocation(){
+        LocationManager locationManager = (LocationManager) getActivity()
+                .getSystemService(Context.LOCATION_SERVICE);
+
+        if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+                || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
+
+            client.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+                String latitud;
+                String longitud;
+
+                @Override
+                public void onComplete(@NonNull Task<Location> task) {
+                    Location location = task.getResult();
+
+                    if(location != null){
+                        latitud = String.valueOf(location.getLatitude());
+                        longitud = String.valueOf(location.getLongitude());
+
+                    }else{
+                        LocationRequest locationRequest = new LocationRequest()
+                                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                                .setInterval(10000)
+                                .setFastestInterval(1000)
+                                .setNumUpdates(1);
+
+                        LocationCallback locationCallback = new LocationCallback() {
+                            @Override
+                            public void onLocationResult(@NonNull LocationResult locationResult) {
+                                Location location1 = locationResult.getLastLocation();
+                                latitud = String.valueOf(location1.getLatitude());
+                                longitud = String.valueOf(location1.getLongitude());
+
+                            }
+                        };
+
+                        client.requestLocationUpdates(locationRequest
+                                ,locationCallback, Looper.myLooper());
+                    }
+
+                    System.out.println("LATITUD: "+latitud);
+                    System.out.println("LONGITUD: "+longitud);
+
+                    coordenadas = latitud + "/" + longitud;
+
+                    //codigo
+                    uidUsuario = mAuth.getCurrentUser().getUid();
+
+                    SolicitudComida solicitudComida =
+                            new SolicitudComida(uidUsuario,keyComida,idFoto,coordenadas,"En espera",descripcion,stock,precioTotal,1);
+
+                    databaseReference.child("pedidos").push().setValue(solicitudComida);
+
+                    AppCompatActivity activity = (AppCompatActivity) getContext();
+                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_user,new InicioFragmentUsuario()).commit();
+
+                    //success message
+                    dismiss();
+
+                }
+            });
+
+        }else{
+
+            //error message - activar permisos
+        }
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data){

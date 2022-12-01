@@ -144,15 +144,15 @@
                     android:text="Coordenadas:"
                     android:textSize="18sp" />
 
-                <ImageView
+                <fragment
                     android:id="@+id/imagenCoordenadasPedidoDetalleUsuarioTrafi"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
                     android:layout_width="350dp"
                     android:layout_height="290dp"
                     android:layout_alignParentStart="true"
                     android:layout_gravity="center"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="645dp"
-                    android:background="@drawable/round_image_comida"
                     android:scaleType="centerCrop" />
 
             </RelativeLayout>

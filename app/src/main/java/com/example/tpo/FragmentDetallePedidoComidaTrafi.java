@@ -1,11 +1,14 @@
 package com.example.tpo;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -19,6 +22,15 @@ import com.bumptech.glide.Glide;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -46,7 +58,7 @@ public class FragmentDetallePedidoComidaTrafi extends Fragment {
     SolicitudComida solicitudComida;
     FirebaseAuth mAuth;
     String uidUsuario;
-
+    private FusedLocationProviderClient trafi;
 
     public FragmentDetallePedidoComidaTrafi() {
     }
@@ -68,6 +80,8 @@ public class FragmentDetallePedidoComidaTrafi extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_detalle_pedido_comida_trafi, container, false);
 
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("                    Detalle Pedido");
+
         TextView nombrePedidoTXT = view.findViewById(R.id.nombrePedidoComidaDetalleTrafi);
         TextView estadoPedidoTXT = view.findViewById(R.id.estadoPedidoComidaDetalleTrafi);
         TextView precioPedidoTXT = view.findViewById(R.id.precioTotalComidaDetalleTrafi);
@@ -75,7 +89,6 @@ public class FragmentDetallePedidoComidaTrafi extends Fragment {
         TextView descripcionPedidoTXT = view.findViewById(R.id.descripcionPedidoComidaDetalleTrafi);
         ImageSlider sliderImagenes = view.findViewById(R.id.sliderPedidoComidaDetalleTrafi);
         ImageView imagenUbicacion = view.findViewById(R.id.imagenUbicacionPedidoDetalleUsuarioTrafi);
-        //Falta la imagen para las coordenadas
 
         databaseReference.child("pedidos/"+keyPedido).addValueEventListener(new ValueEventListener() {
             @Override
@@ -117,6 +130,27 @@ public class FragmentDetallePedidoComidaTrafi extends Fragment {
                             if(!solicitudComida.getEstado().equals("En espera")){
                                 botonCancelar.setText("Confirmar Pedido");
                             }
+
+
+                            //Imagen de las coordenadas
+                            String[] coordenadas = solicitudComida.getCoordenadas().split("/");
+                            Double latitud = Double.parseDouble(coordenadas[0]);
+                            Double longitud = Double.parseDouble(coordenadas[1]);
+                            System.out.println("latitud: "+latitud);
+                            System.out.println("longitud: "+longitud);
+
+                            SupportMapFragment supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.imagenCoordenadasPedidoDetalleUsuarioTrafi);
+
+                            supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+                                @Override
+                                public void onMapReady(@NonNull GoogleMap googleMap) {
+
+
+                                    googleMap.addMarker(new MarkerOptions().position(new LatLng(latitud,longitud)).title("Cliente"));
+                                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(latitud,longitud)));
+
+                                }
+                            });
 
 
                             if(solicitudComida.getEstado().equals("Cancelado") || solicitudComida.getEstado().equals("Entregado")){

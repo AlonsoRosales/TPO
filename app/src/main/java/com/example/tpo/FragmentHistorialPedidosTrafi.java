@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,6 +42,8 @@ public class FragmentHistorialPedidosTrafi extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_historial_pedidos_trafi,container,false);
+
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("                    Historial Pedidos");
 
         recycleview = (RecyclerView) view.findViewById(R.id.recyclerhistorialtrafi);
         recycleview.setLayoutManager(new LinearLayoutManager(getContext()));

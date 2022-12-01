@@ -10,7 +10,7 @@
     <FrameLayout
         android:id="@+id/frame_container_trafi"
         android:layout_width="match_parent"
-        android:layout_height="650dp"
+        android:layout_height="655dp"
         android:layout_above="@id/bottom_navigation_trafi"
         android:layout_alignParentTop="true"
         android:background="@drawable/fondo_pantalla"
@@ -18,7 +18,7 @@
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_trafi"
 
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.421"
+        app:layout_constraintVertical_bias="1"
         tools:layout_editor_absoluteX="1dp" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

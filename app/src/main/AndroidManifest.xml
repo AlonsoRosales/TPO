@@ -8,6 +8,9 @@
         android:required="true" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -20,14 +23,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TPO"
         tools:targetApi="31">
-        <activity
-            android:name=".ActualizarComidaEmpresarioActivity"
-            android:exported="false"
-            android:theme="@style/Theme.TPO.ActualizarComidaEmpresario"/>
-        <activity
-            android:name=".AgregarComidaEmpresarioActivity"
-            android:exported="false"
-            android:theme="@style/Theme.TPO.AgregarComidaEmpresario" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyB23VqjJtPeAiTVDHsDc6koOa0sgB5-lxU"/>
+
         <activity
             android:name=".InicioEmpresarioActivity"
             android:exported="false"
