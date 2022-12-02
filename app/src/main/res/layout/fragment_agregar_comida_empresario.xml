@@ -11,6 +11,15 @@
         android:gravity="center_horizontal"
         tools:context=".FragmentAgregarComidaEmpresario">
 
+        <ImageButton
+            android:id="@+id/retroceder4"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/ic_back_button"
+            android:elevation="2dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/linearLayout5Empresario" />
+
         <LinearLayout
             android:id="@+id/linearLayout5Empresario"
             android:layout_width="370dp"
@@ -93,7 +102,7 @@
                     android:layout_marginTop="5dp"
                     android:background="@color/white"
                     android:ems="12"
-                    android:inputType="textPersonName"
+                    android:inputType="phone"
                     android:paddingLeft="20dp"
                     android:text="1" />
 
@@ -131,7 +140,7 @@
                     android:layout_marginTop="5dp"
                     android:background="@drawable/round_inputs"
                     android:ems="12"
-                    android:inputType="textPersonName"
+                    android:inputType="phone"
                     android:paddingLeft="10dp"
                     android:text="" />
 

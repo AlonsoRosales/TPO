@@ -5,12 +5,14 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -55,6 +57,8 @@ public class FragmentDetalleComidaUsuario extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_detalle_comida_usuario, container, false);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("                      Detalle Comida");
+
         TextView nameComida = view.findViewById(R.id.nombredetallecomida);
         TextView stockComida = view.findViewById(R.id.valorstockdetallecomida);
         TextView precioComida = view.findViewById(R.id.preciodetallecomida);
@@ -68,6 +72,16 @@ public class FragmentDetalleComidaUsuario extends Fragment {
             public void onClick(View view) {
                 botonReservarComida(view);
                 //onPause();
+            }
+        });
+
+        ImageButton retroceder = view.findViewById(R.id.retroceder);
+        retroceder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.frame_container_user,new InicioFragmentUsuario());
+                transaction.commit();
             }
         });
 

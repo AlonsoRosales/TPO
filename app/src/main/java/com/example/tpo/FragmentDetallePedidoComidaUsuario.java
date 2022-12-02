@@ -7,11 +7,14 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -67,6 +70,7 @@ public class FragmentDetallePedidoComidaUsuario extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_detalle_pedido_comida_usuario, container, false);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("                       Detalle Pedido");
 
         TextView nombrePedidoTXT = view.findViewById(R.id.nombrePedidoComidaDetalle);
         TextView estadoPedidoTXT = view.findViewById(R.id.estadoPedidoComidaDetalle);
@@ -76,6 +80,17 @@ public class FragmentDetallePedidoComidaUsuario extends Fragment {
         TextView descripcionPedidoTXT = view.findViewById(R.id.descripcionPedidoComidaDetalle);
         ImageSlider sliderImagenes = view.findViewById(R.id.sliderPedidoComidaDetalle);
         ImageView imagenUbicacion = view.findViewById(R.id.imagenUbicacionPedidoDetalleUsuario);
+
+        ImageButton retroceder = view.findViewById(R.id.retroceder2);
+        retroceder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.frame_container_user,new FragmentPedidoComidasUsuario());
+                transaction.commit();
+            }
+        });
+
 
         databaseReference.child("pedidos/"+keyPedido).addValueEventListener(new ValueEventListener() {
             @Override

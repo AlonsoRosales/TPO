@@ -10,11 +10,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -82,6 +84,8 @@ public class FragmentDetallePedidoComidaTrafi extends Fragment {
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("                    Detalle Pedido");
 
+        ImageButton retroceder = view.findViewById(R.id.retroceder3);
+
         TextView nombrePedidoTXT = view.findViewById(R.id.nombrePedidoComidaDetalleTrafi);
         TextView estadoPedidoTXT = view.findViewById(R.id.estadoPedidoComidaDetalleTrafi);
         TextView precioPedidoTXT = view.findViewById(R.id.precioTotalComidaDetalleTrafi);
@@ -123,6 +127,26 @@ public class FragmentDetallePedidoComidaTrafi extends Fragment {
                                     break;
                             }
 
+
+                            if(solicitudComida.getIdentificador() == 1){
+                                retroceder.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        AppCompatActivity activity = (AppCompatActivity) getContext();
+                                        activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_trafi,new InicioFragmentTrafi()).commit();
+                                    }
+                                });
+                            }else{
+                                retroceder.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        AppCompatActivity activity = (AppCompatActivity) getContext();
+                                        activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_trafi,new FragmentHistorialPedidosTrafi()).commit();
+                                    }
+                                });
+                            }
+
+
                             estadoPedidoTXT.setText(String.valueOf(solicitudComida.getEstado()));
 
                             Button botonCancelar = view.findViewById(R.id.botonTomarPedidoDetalleUsuarioTrafi);
@@ -162,6 +186,7 @@ public class FragmentDetallePedidoComidaTrafi extends Fragment {
                                     @Override
                                     public void onClick(View view) {
                                         if(solicitudComida.getEstado().equals("En espera")){
+
                                             uidUsuario = solicitudComida.getIdUsuario();
 
                                             String idFoto = solicitudComida.getFotoUbicacion();

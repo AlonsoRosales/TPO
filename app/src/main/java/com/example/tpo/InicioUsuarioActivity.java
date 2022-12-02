@@ -81,8 +81,8 @@ public class InicioUsuarioActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-    /*@Override
+    @Override
     public void onBackPressed() {
-    }*/
+    }
 
 }

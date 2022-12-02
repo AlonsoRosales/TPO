@@ -72,7 +72,7 @@ public class FragmentAgregarComidaEmpresario extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_agregar_comida_empresario,container,false);
-
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("                    Agregar Comida");
         avisoTxt = view.findViewById(R.id.avisoTextEmpresario);
 
         stockTxt = view.findViewById(R.id.stockEmpresario);
@@ -80,6 +80,14 @@ public class FragmentAgregarComidaEmpresario extends Fragment {
 
         ImageButton botonAgregarImagenes = view.findViewById(R.id.variasImagenesEmpresario);
 
+        ImageButton retroceder = view.findViewById(R.id.retroceder4);
+        retroceder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppCompatActivity activity = (AppCompatActivity) getContext();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_empresario,new InicioFragmentEmpresario()).commit();
+            }
+        });
 
         ImageButton botonDisminuir = view.findViewById(R.id.disminuirStockEmpresario);
         botonDisminuir.setOnClickListener(new View.OnClickListener() {
@@ -149,6 +157,7 @@ public class FragmentAgregarComidaEmpresario extends Fragment {
                         precioTxt.setError("Ingrese un precio");
                         guardar = false;
                     }
+                    precio = "S/"+precio;
 
                     descripcion = descripcionTxt.getText().toString();
                     if (descripcion.equalsIgnoreCase("") || descripcion == null || descripcion.isEmpty()) {

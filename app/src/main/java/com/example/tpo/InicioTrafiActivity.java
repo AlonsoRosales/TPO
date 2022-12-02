@@ -80,7 +80,7 @@ public class InicioTrafiActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-    /*@Override
+    @Override
     public void onBackPressed() {
-    }*/
+    }
 }

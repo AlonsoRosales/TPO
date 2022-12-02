@@ -78,7 +78,7 @@ public class FragmentActualizarComidaEmpresario extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_actualizar_comida_empresario,container,false);
-
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("                 Actualizar Comida");
 
         TextView nombreComida = view.findViewById(R.id.nombreComida2updateempresario);
         TextView precioComida = view.findViewById(R.id.precio2updateempresario);
@@ -103,6 +103,14 @@ public class FragmentActualizarComidaEmpresario extends Fragment {
 
         EditText descripcionTxt = view.findViewById(R.id.descripcion2updateempresario);
 
+        ImageButton retroceder = view.findViewById(R.id.retroceder4);
+        retroceder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppCompatActivity activity = (AppCompatActivity) getContext();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_empresario,new InicioFragmentEmpresario()).commit();
+            }
+        });
 
         databaseReference.child("comidas/"+keyComida).addValueEventListener(new ValueEventListener() {
             @Override

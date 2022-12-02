@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,6 +42,8 @@ public class InicioFragmentUsuario extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_inicio_usuario,container,false);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("                           Comidas");
+
 
         recycleview = (RecyclerView) view.findViewById(R.id.recyclercomidasUsuario);
         recycleview.setLayoutManager(new LinearLayoutManager(getContext()));

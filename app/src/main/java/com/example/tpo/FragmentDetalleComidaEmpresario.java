@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.denzcoskun.imageslider.ImageSlider;
@@ -52,6 +53,8 @@ public class FragmentDetalleComidaEmpresario extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("                    Detalle Comida");
+
         View view = inflater.inflate(R.layout.fragment_detalle_comida_empresario, container, false);
         TextView nameComida = view.findViewById(R.id.nombredetallecomidaEmpresario);
         TextView stockComida = view.findViewById(R.id.valorstockdetallecomidaEmpresario);
@@ -60,8 +63,14 @@ public class FragmentDetalleComidaEmpresario extends Fragment {
         TextView descripcionComida = view.findViewById(R.id.valordescripciondetallecomidaEmpresario);
         ImageSlider imageSlider = view.findViewById(R.id.sliderdetallecomidaEmpresario);
 
-
-
+        ImageButton retroceder = view.findViewById(R.id.retroceder4);
+        retroceder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppCompatActivity activity = (AppCompatActivity) getContext();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_empresario,new InicioFragmentEmpresario()).commit();
+            }
+        });
 
         databaseReference.child("comidas/"+keyComida).addValueEventListener(new ValueEventListener() {
             @Override

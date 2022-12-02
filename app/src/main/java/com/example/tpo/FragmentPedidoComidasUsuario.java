@@ -2,6 +2,7 @@ package com.example.tpo;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,7 +34,7 @@ public class FragmentPedidoComidasUsuario extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_pedido_comidas_usuario,container,false);
-
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("                  Historial de Pedidos");
         recycleview = (RecyclerView) view.findViewById(R.id.recyclerPedidosUsuario);
         recycleview.setLayoutManager(new LinearLayoutManager(getContext()));
 

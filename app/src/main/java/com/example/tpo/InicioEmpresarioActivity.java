@@ -82,7 +82,7 @@ public class InicioEmpresarioActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-    /*@Override
+    @Override
     public void onBackPressed() {
-    }*/
+    }
 }
