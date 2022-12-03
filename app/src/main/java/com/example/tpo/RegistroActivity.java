@@ -1,6 +1,7 @@
 package com.example.tpo;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -11,6 +12,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -19,7 +27,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.security.MessageDigest;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class RegistroActivity extends AppCompatActivity {
@@ -101,9 +114,33 @@ public class RegistroActivity extends AppCompatActivity {
                                 if(task.isSuccessful()){
 
                                     String uid = firebaseAuth.getUid();
-                                    Toast.makeText(RegistroActivity.this,"Cuenta creada exitosamente!",Toast.LENGTH_SHORT).show();
 
-                                    databaseReference.child("usuarios").child(uid).setValue(new Usuario(correo,sha256(contrasena),"1"));
+                                    //volley
+                                    RequestQueue requestQueue = Volley.newRequestQueue(RegistroActivity.this);
+                                    String url = "https://servicetpo.azurewebsites.net/api/HttpTriggerTPO?";
+                                    //String url = "http://192.168.1.36:7071/api/HttpTriggerTPO";
+                                    StringRequest stringRequest = new StringRequest(
+                                            Request.Method.POST,
+                                            url,
+                                            response -> {
+                                                System.out.println(response);
+                                            },
+                                            error -> System.out.println(error.getMessage())){
+                                        @Nullable
+                                        @Override
+                                        protected Map<String, String> getParams() throws AuthFailureError {
+                                            Map<String,String> params = new HashMap<>();
+                                            params.put("UID",uid);
+                                            params.put("correo",correo);
+                                            params.put("pass",sha256(contrasena));
+                                            params.put("rol","1");
+                                            return  params;
+                                        }
+                                    };
+                                    requestQueue.add(stringRequest);
+
+                                    //databaseReference.child("usuarios").child(uid).setValue(new Usuario(sha256(contrasena),correo,"1"));
+                                    Toast.makeText(RegistroActivity.this,"Cuenta creada exitosamente!",Toast.LENGTH_SHORT).show();
 
                                 }else{
                                     Toast.makeText(RegistroActivity.this,"Correo o contraseña incorrectas!",Toast.LENGTH_SHORT).show();

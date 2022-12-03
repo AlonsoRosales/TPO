@@ -4,12 +4,17 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
+import android.os.Environment;
 import android.os.Looper;
 import android.provider.MediaStore;
 import android.provider.Settings;
@@ -47,6 +53,12 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Objects;
 import java.util.Random;
 
 
@@ -403,6 +415,32 @@ public class MessageFragmentPedirComidaUsuario extends DialogFragment {
             imgBitMap = (Bitmap) extras.get("data");
 
             fondoDNI.setImageBitmap(imgBitMap);
+
+            String imgName = System.currentTimeMillis() + ".jpg";
+            Uri imageCollection = null;
+            ContentResolver resolver = getActivity().getContentResolver();
+
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+                imageCollection = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
+            }else{
+                imageCollection = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+            }
+
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(MediaStore.Images.Media.DISPLAY_NAME,imgName);
+            contentValues.put(MediaStore.Images.Media.MIME_TYPE,"image/jpeg");
+            Uri imageUri = resolver.insert(imageCollection,contentValues);
+            try {
+                OutputStream outputStream = resolver.openOutputStream(Objects.requireNonNull(imageUri));
+                imgBitMap.compress(Bitmap.CompressFormat.JPEG,100,outputStream);
+                Objects.requireNonNull(outputStream);
+
+
+            }catch (Exception e){
+                System.out.println("ERROR");
+            }
+
+
         }
     }
 

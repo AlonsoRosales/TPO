@@ -37,9 +37,9 @@ public class InicioTrafiActivity extends AppCompatActivity {
                 case R.id.solicitud_user:
                     loadFragment(solicitudesFragmentTrafi);
                     return true;
-                case R.id.notificacion_user:
+                /*case R.id.notificacion_user:
                     loadFragment(notificacionesFragmentTrafi);
-                    return true;
+                    return true;*/
             }
             return false;
         });

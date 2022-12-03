@@ -38,9 +38,9 @@ public class InicioUsuarioActivity extends AppCompatActivity {
                 case R.id.solicitud_user:
                     loadFragment(solicitudesFragmentUsuario);
                     return true;
-                case R.id.notificacion_user:
+                /*case R.id.notificacion_user:
                     loadFragment(notificacionesFragmentUsuario);
-                    return true;
+                    return true;*/
             }
             return false;
         });

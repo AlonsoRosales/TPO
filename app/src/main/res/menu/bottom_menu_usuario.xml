@@ -11,7 +11,7 @@
         android:title=""
         android:icon="@drawable/ic_pedido" />
 
-    <item android:id="@+id/notificacion_user"
+    <!--item android:id="@+id/notificacion_user"
         android:title=""
-        android:icon="@drawable/ic_campana" />
+        android:icon="@drawable/ic_campana" /-->
 </menu>
