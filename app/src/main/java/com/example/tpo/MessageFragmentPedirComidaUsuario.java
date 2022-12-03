@@ -434,7 +434,7 @@ public class MessageFragmentPedirComidaUsuario extends DialogFragment {
                 OutputStream outputStream = resolver.openOutputStream(Objects.requireNonNull(imageUri));
                 imgBitMap.compress(Bitmap.CompressFormat.JPEG,100,outputStream);
                 Objects.requireNonNull(outputStream);
-
+                System.out.println("IMAGEN GUARDADA");
 
             }catch (Exception e){
                 System.out.println("ERROR");
