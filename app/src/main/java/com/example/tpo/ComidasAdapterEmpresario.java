@@ -43,14 +43,14 @@ public class ComidasAdapterEmpresario  extends FirebaseRecyclerAdapter<Comida,Co
         int orden = position;
 
         holder.nombreComida.setText(String.valueOf(comida.getNombre()));
-        holder.stockComida.setText(String.valueOf(comida.getStock()));
+        holder.stockComida.setText("   "+String.valueOf(comida.getStock()));
 
         if(comida.getStock() == 0){
             holder.fondo_comida.setBackgroundColor(Color.parseColor("#A89F9F"));
         }
 
         holder.precioComida.setText(comida.getPrecio());
-        holder.tiendaComida.setText("Tienda "+comida.getIdTienda());
+        holder.tiendaComida.setText("    Tienda "+comida.getIdTienda());
 
         switch (comida.getEstado()){
             case "0":

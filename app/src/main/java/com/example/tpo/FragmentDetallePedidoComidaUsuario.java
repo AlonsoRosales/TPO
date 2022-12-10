@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.denzcoskun.imageslider.ImageSlider;
@@ -145,10 +146,11 @@ public class FragmentDetallePedidoComidaUsuario extends Fragment {
                                             String idFoto = solicitudComida.getFotoUbicacion();
                                             String descp = solicitudComida.getDescripcion();
                                             int cant = solicitudComida.getCantidad();
+                                            String coordenadas = solicitudComida.getCoordenadas();
                                             double total = solicitudComida.getPrecioTotal();
 
                                             SolicitudComida solicitudComida =
-                                                    new SolicitudComida(uidUsuario,keyComida,idFoto,null,"Cancelado",descp,cant,total,0);
+                                                    new SolicitudComida(uidUsuario,keyComida,idFoto,coordenadas,"Cancelado",descp,cant,total,0);
 
                                             databaseReference.child("pedidos/"+keyPedido).setValue(solicitudComida);
 
@@ -200,6 +202,9 @@ public class FragmentDetallePedidoComidaUsuario extends Fragment {
 
                         }else{
                             //error message
+                            Toast.makeText(getContext(), "El pedido ya no existe!", Toast.LENGTH_SHORT).show();
+                            AppCompatActivity activity = (AppCompatActivity) getContext();
+                            activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_user, new FragmentPedidoComidasUsuario()).addToBackStack(null).commit();
                         }
 
                     }
@@ -207,6 +212,9 @@ public class FragmentDetallePedidoComidaUsuario extends Fragment {
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                         //error message
+                        Toast.makeText(getContext(), "An error has ocurred!", Toast.LENGTH_SHORT).show();
+                        AppCompatActivity activity = (AppCompatActivity) getContext();
+                        activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_user, new FragmentPedidoComidasUsuario()).addToBackStack(null).commit();
                     }
                 });
 
@@ -214,6 +222,9 @@ public class FragmentDetallePedidoComidaUsuario extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 //error message
+                Toast.makeText(getContext(), "An error has ocurred!", Toast.LENGTH_SHORT).show();
+                AppCompatActivity activity = (AppCompatActivity) getContext();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_user, new FragmentPedidoComidasUsuario()).addToBackStack(null).commit();
             }
         });
 

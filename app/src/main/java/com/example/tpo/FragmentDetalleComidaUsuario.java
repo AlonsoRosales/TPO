@@ -14,6 +14,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.denzcoskun.imageslider.ImageSlider;
@@ -34,8 +35,8 @@ public class FragmentDetalleComidaUsuario extends Fragment {
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference = firebaseDatabase.getReference();
     MessageFragmentPedirComidaUsuario messageFragment;
-    ArrayList<String> urls = new ArrayList<>();
-    ArrayList<SlideModel> imageList = new ArrayList<>();
+    ArrayList<String> urls;
+    ArrayList<SlideModel> imageList;
 
     public FragmentDetalleComidaUsuario(String keyComida){
         this.keyComida = keyComida;
@@ -71,7 +72,6 @@ public class FragmentDetalleComidaUsuario extends Fragment {
             @Override
             public void onClick(View view) {
                 botonReservarComida(view);
-                //onPause();
             }
         });
 
@@ -94,9 +94,13 @@ public class FragmentDetalleComidaUsuario extends Fragment {
 
                     if(comida.getEstado().equals("0") || comida.getStock() == 0){
                         //error message
-
+                        //Toast.makeText(getContext(), "Ya no esta disponible la comida!", Toast.LENGTH_SHORT).show();
+                        AppCompatActivity activity = (AppCompatActivity) getContext();
+                        activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_user, new InicioFragmentUsuario()).addToBackStack(null).commit();
                     }else{
+                        imageList = new ArrayList<>();
                         imageList.clear();
+                        urls = new ArrayList<>();
 
                         nameComida.setText(String.valueOf(comida.getNombre()));
                         precioComida.setText(String.valueOf(comida.getPrecio()));
@@ -131,12 +135,18 @@ public class FragmentDetalleComidaUsuario extends Fragment {
 
                 }else{
                     //error message
+                    Toast.makeText(getContext(), "La comida ya no existe!", Toast.LENGTH_SHORT).show();
+                    AppCompatActivity activity = (AppCompatActivity) getContext();
+                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_user, new InicioFragmentUsuario()).addToBackStack(null).commit();
                 }
 
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 //error message
+                Toast.makeText(getContext(), "An error has ocurred!", Toast.LENGTH_SHORT).show();
+                AppCompatActivity activity = (AppCompatActivity) getContext();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_user, new InicioFragmentUsuario()).addToBackStack(null).commit();
             }
         });
 

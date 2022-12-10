@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -117,6 +118,13 @@ public class FragmentActualizarComidaEmpresario extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot != null){
                     Comida comida = snapshot.getValue(Comida.class);
+                    nombre = comida.getNombre();
+                    precio = comida.getPrecio();
+                    idTienda = comida.getIdTienda();
+                    stock = comida.getStock();
+                    descripcion = comida.getDescripcion();
+
+
                     nombreComida.setText(comida.getNombre());
                     precioComida.setText(comida.getPrecio());
                     descripcionTxt.setText(comida.getDescripcion());
@@ -149,9 +157,68 @@ public class FragmentActualizarComidaEmpresario extends Fragment {
                     botonAgregarComida.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            boolean guardar = true;
+                            //boolean guardar = true;
 
                             try{
+                                descripcion = descripcionTxt.getText().toString();
+
+                                if (!descripcion.equalsIgnoreCase("") && descripcion != null && !descripcion.isEmpty()) {
+                                    databaseReference.child("comidas/"+keyComida).child("descripcion").setValue(descripcion);
+                                }
+
+                            }catch (Exception e){
+                                //No quiere actualizar este campo
+                            }
+
+
+                            try {
+                                stock = Integer.parseInt(stockTxt.getText().toString());
+                                if(stock != 1 && stock > 0){
+                                    databaseReference.child("comidas/"+keyComida).child("stock").setValue(stock);
+                                }
+
+                            }catch (Exception e){
+                                //No quiere actualizar este campo
+                            }
+
+
+                            if(ImageList.size() != 0){
+                                Comida comida2 = new Comida(nombre,precio,descripcion,stock,null,"1",idTienda);
+                                databaseReference.child("comidas/"+keyComida).setValue(comida2);
+
+                                for(upload_count = 0;upload_count < ImageList.size(); upload_count++){
+                                    Uri individualImage = ImageList.get(upload_count);
+                                    String randomName = randomString();
+                                    StorageReference imageName = imageRef.child(randomName+individualImage.getLastPathSegment());
+
+                                    imageName.putFile(individualImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                        @Override
+                                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                            imageName.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                @Override
+                                                public void onSuccess(Uri uri) {
+                                                    String url = String.valueOf(uri);
+
+                                                    HashMap<String, Object> valorcito = new HashMap<>();
+
+                                                    valorcito.put("imagen",url);
+
+                                                    databaseReference.child("comidas/"+keyComida).child("imagenes").push().setValue(valorcito);
+                                                }
+                                            });
+                                        }
+                                    });
+
+                                }
+
+                            }
+
+                            Toast.makeText(getContext(), "Comida Actualizada!", Toast.LENGTH_SHORT).show();
+                            AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                            activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_empresario,
+                                    new InicioFragmentEmpresario()).addToBackStack(null).commit();
+                            /*try{
+
 
                                 descripcion = descripcionTxt.getText().toString();
                                 if (descripcion.equalsIgnoreCase("") || descripcion == null || descripcion.isEmpty()) {
@@ -222,13 +289,15 @@ public class FragmentActualizarComidaEmpresario extends Fragment {
                                 }else{
                                     //error message
                                     System.out.println("entro al else");
+                                    Toast.makeText(getContext(), "Campo(s) incorrectos!", Toast.LENGTH_SHORT).show();
                                 }
 
                             }catch(Exception e){
                                 //error message
                                 System.out.println(e);
                                 System.out.println("entro al catch");
-                            }
+                                Toast.makeText(getContext(), "Campo(s) incorrectos!", Toast.LENGTH_SHORT).show();
+                            }*/
 
                         }
                     });
@@ -270,7 +339,7 @@ public class FragmentActualizarComidaEmpresario extends Fragment {
                 }
 
                 avisoTxt.setText("Has seleccionado "+ImageList.size() + " fotos.");
-                avisoTxt.setTextColor(Color.BLACK);
+                avisoTxt.setTextColor(Color.BLUE);
 
             }else{
                 avisoTxt.setText("Ingrese múltiples imágenes!");

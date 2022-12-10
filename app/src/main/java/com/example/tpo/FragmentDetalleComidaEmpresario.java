@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
@@ -111,6 +112,9 @@ public class FragmentDetalleComidaEmpresario extends Fragment {
 
                 }else{
                     //error message
+                    Toast.makeText(getContext(), "La comida ya no existe!", Toast.LENGTH_LONG).show();
+                    AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_user,new InicioFragmentEmpresario()).addToBackStack(null).commit();
                 }
 
             }

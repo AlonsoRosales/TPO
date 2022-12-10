@@ -115,7 +115,7 @@
                         android:id="@+id/stockComidaEmpresario"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="40"
+                        android:text=""
                         android:textColor="@color/gray"
                         android:textSize="18sp" />
 
@@ -123,7 +123,7 @@
                         android:id="@+id/tiendaComidaEmpresario"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Tienda A"
+                        android:text=""
                         android:textColor="@color/gray"
                         android:textSize="18sp" />
 

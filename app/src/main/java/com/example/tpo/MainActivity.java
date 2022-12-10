@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
                                         @Override
                                         public void onCancelled(@NonNull DatabaseError error) {
-                                            Toast.makeText(MainActivity.this,"An error has ocurred!",Toast.LENGTH_SHORT).show();
+                                            //Toast.makeText(MainActivity.this,"An error has ocurred!",Toast.LENGTH_SHORT).show();
                                         }
 
                                     });
@@ -132,6 +132,45 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+        if(firebaseAuth.getCurrentUser() != null){
+            String uid2 = firebaseAuth.getCurrentUser().getUid();
+
+            databaseReference.child("usuarios/"+uid2).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Usuario user = snapshot.getValue(Usuario.class);
+                    String rolDB = user.getRol();
+                    if(rolDB.equals("1")){
+                        Intent i = new Intent(MainActivity.this,InicioUsuarioActivity.class);
+                        startActivity(i);
+                        Toast.makeText(MainActivity.this,"Eres Cliente!",Toast.LENGTH_SHORT).show();
+                    }
+
+                    if(rolDB.equals("2")){
+                        Intent i = new Intent(MainActivity.this,InicioTrafiActivity.class);
+                        startActivity(i);
+                        Toast.makeText(MainActivity.this,"Eres Trafi!",Toast.LENGTH_SHORT).show();
+                    }
+
+                    if(rolDB.equals("3")){
+                        Intent i = new Intent(MainActivity.this,InicioEmpresarioActivity.class);
+                        startActivity(i);
+                        Toast.makeText(MainActivity.this,"Eres Empresario!",Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    //Toast.makeText(MainActivity.this,"An error has ocurred!",Toast.LENGTH_SHORT).show();
+                }
+
+            });
+
+
+        }
+
 
         /*
         Falta setearles la tienda

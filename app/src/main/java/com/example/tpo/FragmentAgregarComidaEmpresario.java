@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -233,7 +234,7 @@ public class FragmentAgregarComidaEmpresario extends Fragment {
 
                         }
 
-
+                        Toast.makeText(getActivity(),"Comida creada!",Toast.LENGTH_SHORT).show();
                         AppCompatActivity activity = (AppCompatActivity) view.getContext();
                         activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_empresario,
                                 new InicioFragmentEmpresario()).addToBackStack(null).commit();
@@ -242,12 +243,14 @@ public class FragmentAgregarComidaEmpresario extends Fragment {
                     }else{
                         //error message
                         System.out.println("entro al else");
+                        Toast.makeText(getActivity(),"Campo(s) Incorrectos!",Toast.LENGTH_SHORT).show();
                     }
 
                 }catch(Exception e){
                     //error message
                     System.out.println(e);
                     System.out.println("entro al catch");
+                    Toast.makeText(getActivity(),"Todos los campos son obligatorios!",Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -279,7 +282,7 @@ public class FragmentAgregarComidaEmpresario extends Fragment {
                 }
 
                 avisoTxt.setText("Has seleccionado "+ImageList.size() + " fotos.");
-                avisoTxt.setTextColor(Color.BLACK);
+                avisoTxt.setTextColor(Color.BLUE);
 
             }else{
                 avisoTxt.setText("Ingrese múltiples imágenes!");

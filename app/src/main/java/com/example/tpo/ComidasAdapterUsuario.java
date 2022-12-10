@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -98,6 +99,7 @@ public class ComidasAdapterUsuario extends FirebaseRecyclerAdapter<Comida,Comida
 
                 }else{
                     //error message -> sin stock
+                    Toast.makeText(view.getContext(), "Sin stock!",Toast.LENGTH_SHORT).show();
                 }
             }
         });

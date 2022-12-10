@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.denzcoskun.imageslider.ImageSlider;
@@ -28,6 +29,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -81,6 +83,7 @@ public class FragmentDetallePedidoComidaTrafi extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_detalle_pedido_comida_trafi, container, false);
+
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("                    Detalle Pedido");
 
@@ -176,7 +179,6 @@ public class FragmentDetallePedidoComidaTrafi extends Fragment {
                                 }
                             });
 
-
                             if(solicitudComida.getEstado().equals("Cancelado") || solicitudComida.getEstado().equals("Entregado")){
                                 botonCancelar.setBackgroundColor(Color.parseColor("#A89F9F"));
 
@@ -193,9 +195,9 @@ public class FragmentDetallePedidoComidaTrafi extends Fragment {
                                             String descp = solicitudComida.getDescripcion();
                                             int cant = solicitudComida.getCantidad();
                                             double total = solicitudComida.getPrecioTotal();
-
+                                            String coordenadas = solicitudComida.getCoordenadas();
                                             SolicitudComida solicitudComida =
-                                                    new SolicitudComida(uidUsuario,keyComida,idFoto,null,"En proceso",descp,cant,total,1);
+                                                    new SolicitudComida(uidUsuario,keyComida,idFoto,coordenadas,"En proceso",descp,cant,total,1);
 
                                             databaseReference.child("pedidos/"+keyPedido).setValue(solicitudComida);
 
@@ -211,9 +213,10 @@ public class FragmentDetallePedidoComidaTrafi extends Fragment {
                                                 String descp = solicitudComida.getDescripcion();
                                                 int cant = solicitudComida.getCantidad();
                                                 double total = solicitudComida.getPrecioTotal();
+                                                String coordenadas = solicitudComida.getCoordenadas();
 
                                                 SolicitudComida solicitudComida =
-                                                        new SolicitudComida(uidUsuario,keyComida,idFoto,null,"Entregado",descp,cant,total,0);
+                                                        new SolicitudComida(uidUsuario,keyComida,idFoto,coordenadas,"Entregado",descp,cant,total,0);
 
                                                 databaseReference.child("pedidos/"+keyPedido).setValue(solicitudComida);
 
@@ -268,6 +271,7 @@ public class FragmentDetallePedidoComidaTrafi extends Fragment {
 
                         }else{
                             //error message
+                            Toast.makeText(getContext(), "An error has ocurred!", Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -275,6 +279,8 @@ public class FragmentDetallePedidoComidaTrafi extends Fragment {
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                         //error message
+                        Toast.makeText(getContext(), "An error has ocurred!", Toast.LENGTH_SHORT).show();
+
                     }
                 });
 
@@ -282,6 +288,7 @@ public class FragmentDetallePedidoComidaTrafi extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 //error message
+                Toast.makeText(getContext(), "An error has ocurred!", Toast.LENGTH_SHORT).show();
             }
         });
 

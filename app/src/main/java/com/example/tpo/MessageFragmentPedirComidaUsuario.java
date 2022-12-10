@@ -33,6 +33,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -136,6 +137,7 @@ public class MessageFragmentPedirComidaUsuario extends DialogFragment {
                     stockTitulo.setText(String.valueOf(comida.getStock()));
                 }else{
                     //error message
+                    Toast.makeText(view.getContext(), "La comida ya no existe!",Toast.LENGTH_SHORT).show();
                     dismiss();
 
                 }
@@ -194,6 +196,7 @@ public class MessageFragmentPedirComidaUsuario extends DialogFragment {
                     public void onClick(View view) {
                         if(comida.getEstado().equals("0") || comida.getStock() == 0){
                             //error message -> no esta disponible
+                            Toast.makeText(view.getContext(), "La comida ya no esta disponible!",Toast.LENGTH_SHORT).show();
                             dismiss();
 
                         }else{
@@ -230,8 +233,14 @@ public class MessageFragmentPedirComidaUsuario extends DialogFragment {
                                     if(stockRestante > 0){
                                         databaseReference.child("comidas/"+keyComida).child("stock").setValue(stockRestante);
                                     }else{
-                                        databaseReference.child("comidas/"+keyComida).child("stock").setValue(0);
-                                        databaseReference.child("comidas/"+keyComida).child("estado").setValue("0");
+                                        if(stockRestante == 0){
+                                            databaseReference.child("comidas/"+keyComida).child("stock").setValue(0);
+                                            databaseReference.child("comidas/"+keyComida).child("estado").setValue("0");
+                                        }else{
+                                            Toast.makeText(view.getContext(), "Ya no hay mucho stock!",Toast.LENGTH_SHORT).show();
+                                            dismiss();
+                                        }
+
                                     }
 
 
@@ -289,15 +298,17 @@ public class MessageFragmentPedirComidaUsuario extends DialogFragment {
                                 }else{
                                     //message error -> campos incorrectos
                                     System.out.println("ERROR AL GUARDAR");
-                                    dismiss();
+                                    Toast.makeText(view.getContext(), "Campo(s) incorrectos!",Toast.LENGTH_SHORT).show();
+                                    //dismiss();
 
                                 }
 
                             }catch (Exception e){
                                 //error message
-                                System.out.println("ENTRU AL CATCH");
+                                System.out.println("ENTRO AL CATCH");
                                 System.out.println(e);
-                                dismiss();
+                                Toast.makeText(view.getContext(), "Todos los campos son obligatorios!",Toast.LENGTH_SHORT).show();
+                                //dismiss();
                             }
                         }
 
@@ -311,6 +322,7 @@ public class MessageFragmentPedirComidaUsuario extends DialogFragment {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 //error message
+                Toast.makeText(view.getContext(), "An error has ocurred!",Toast.LENGTH_SHORT).show();
                 dismiss();
             }
         });
@@ -335,6 +347,7 @@ public class MessageFragmentPedirComidaUsuario extends DialogFragment {
         }else{
             System.out.println("ERROR MESSAGE");
             //denied permissions - message error
+            Toast.makeText(getActivity().getApplicationContext(), "Denied Permissions!",Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -378,6 +391,8 @@ public class MessageFragmentPedirComidaUsuario extends DialogFragment {
 
                         client.requestLocationUpdates(locationRequest
                                 ,locationCallback, Looper.myLooper());
+
+                        getCurrentLocation();
                     }
 
                     System.out.println("LATITUD: "+latitud);
@@ -397,6 +412,7 @@ public class MessageFragmentPedirComidaUsuario extends DialogFragment {
                     activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_user,new InicioFragmentUsuario()).commit();
 
                     //success message
+                    Toast.makeText(getActivity().getApplicationContext(), "Pedido realizado!",Toast.LENGTH_SHORT).show();
                     dismiss();
 
                 }
@@ -405,6 +421,8 @@ public class MessageFragmentPedirComidaUsuario extends DialogFragment {
         }else{
 
             //error message - activar permisos
+            Toast.makeText(getActivity().getApplicationContext(), "Active los permisos de ubicacion!",Toast.LENGTH_SHORT).show();
+            dismiss();
         }
     }
 

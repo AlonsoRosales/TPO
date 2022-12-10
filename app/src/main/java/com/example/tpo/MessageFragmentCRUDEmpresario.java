@@ -87,6 +87,8 @@ public class MessageFragmentCRUDEmpresario extends DialogFragment {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot == null){
                             //error message
+                            Toast.makeText(getActivity(),"An error has ocurred!",Toast.LENGTH_SHORT).show();
+
                         }else{
                             boolean existePedido = false;
                             for(DataSnapshot sp : snapshot.getChildren()){
@@ -109,6 +111,7 @@ public class MessageFragmentCRUDEmpresario extends DialogFragment {
 
                             if(!existePedido){
                                 databaseReference.child("comidas/"+keyComida).child("estado").setValue("0");
+                                Toast.makeText(getActivity(),"La comida \"eliminada\" !",Toast.LENGTH_SHORT).show();
                                 dismiss();
                             }
 
