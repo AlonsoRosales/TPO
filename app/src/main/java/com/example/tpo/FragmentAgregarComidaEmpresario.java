@@ -61,6 +61,11 @@ public class FragmentAgregarComidaEmpresario extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        stock = 1;
+        descripcion = "";
+        idTienda = "";
+        ImageList.clear();
+        nombre = "";
 
     }
 
@@ -166,7 +171,7 @@ public class FragmentAgregarComidaEmpresario extends Fragment {
                         guardar = false;
                     }
 
-                    //stock = Integer.parseInt(stockTxt.getText().toString());
+                    stock = Integer.parseInt(stockTxt.getText().toString());
                     if(stock <= 0){
                         stockTxt.setError("Ingrese un stock positivo");
                         guardar = false;

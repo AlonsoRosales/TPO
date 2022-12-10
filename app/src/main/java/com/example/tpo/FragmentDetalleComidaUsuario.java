@@ -144,7 +144,7 @@ public class FragmentDetalleComidaUsuario extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 //error message
-                Toast.makeText(getContext(), "An error has ocurred!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "An error has ocurred!", Toast.LENGTH_SHORT).show();
                 AppCompatActivity activity = (AppCompatActivity) getContext();
                 activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_container_user, new InicioFragmentUsuario()).addToBackStack(null).commit();
             }

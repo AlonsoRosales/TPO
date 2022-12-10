@@ -35,7 +35,7 @@ public class ComidasAdapterUsuario extends FirebaseRecyclerAdapter<Comida,Comida
         int orden = position;
 
         holder.nombre.setText(String.valueOf(comida.getNombre()));
-        holder.stock.setText(String.valueOf(comida.getStock()));
+        holder.stock.setText("   "+String.valueOf(comida.getStock()));
 
         if(comida.getStock() == 0){
             holder.fondo_comida.setBackgroundColor(Color.parseColor("#A89F9F"));
@@ -43,7 +43,7 @@ public class ComidasAdapterUsuario extends FirebaseRecyclerAdapter<Comida,Comida
 
         holder.precio.setText(String.valueOf(comida.getPrecio()));
 
-        holder.tienda.setText("Tienda "+String.valueOf(comida.getIdTienda()));
+        holder.tienda.setText("    Tienda "+comida.getIdTienda());
 
         //------------------IMAGEN------------------------
         //Seteo de Imagen

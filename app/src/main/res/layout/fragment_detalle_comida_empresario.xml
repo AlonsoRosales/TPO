@@ -24,7 +24,7 @@
         <LinearLayout
             android:id="@+id/linearLayout5Empresario"
             android:layout_width="370dp"
-            android:layout_height="650dp"
+            android:layout_height="700dp"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:background="@drawable/fondo_detalle_comida"
@@ -139,8 +139,8 @@
 
                 <TextView
                     android:id="@+id/valordescripciondetallecomidaEmpresario"
-                    android:layout_width="260dp"
-                    android:layout_height="110dp"
+                    android:layout_width="290dp"
+                    android:layout_height="150dp"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
                     android:layout_marginStart="40dp"

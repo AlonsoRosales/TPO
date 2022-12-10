@@ -34,7 +34,6 @@ public class InicioEmpresarioActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
     InicioFragmentEmpresario inicioFragmentEmpresario = new InicioFragmentEmpresario();
-    FragmentAgregarComidaEmpresario fragmentAgregarComidaEmpresario = new FragmentAgregarComidaEmpresario();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +57,7 @@ public class InicioEmpresarioActivity extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.agregar_empresario:
+                FragmentAgregarComidaEmpresario fragmentAgregarComidaEmpresario = new FragmentAgregarComidaEmpresario();
                 loadFragment(fragmentAgregarComidaEmpresario);
                 break;
             case R.id.cerrarSesion_empresario:
@@ -79,6 +79,7 @@ public class InicioEmpresarioActivity extends AppCompatActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_container_empresario,fragment);
         transaction.addToBackStack(null);
+
         transaction.commit();
     }
 
